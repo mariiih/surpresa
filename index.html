@@ -15,7 +15,7 @@ body { font-family:'Poppins', Arial, sans-serif; background:#0a0a0f; color:white
 .hero h1 { font-size:3rem; z-index:2; font-weight:600; letter-spacing:1px; animation:fadeIn 2s ease; text-shadow:0 0 15px rgba(255,100,150,0.7); }
 
 /* PARTICULAS */
-#particles { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; opacity:0.35; pointer-events:none; }
+#particles { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; opacity:0.6; pointer-events:none; }
 
 /* SEÇÕES */
 section { padding:70px 20px; text-align:center; opacity:0; transform:translateY(30px); transition:0.8s ease; }
@@ -38,7 +38,13 @@ button:active { transform:scale(0.94); }
 .heart { font-size:3.4rem; animation:pulse 1.4s infinite ease-in-out; color:#ff73a5; text-shadow:0 0 15px rgba(255,100,150,0.7); }
 
 /* MENSAGEM SURPRESA */
-#msgSurpresa { display:none; font-size:1.2rem; color:#ffbfd7; margin-top:20px; text-shadow:0 0 10px rgba(255,150,200,0.4); }
+#mensagemSurpresa {
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:linear-gradient(135deg,#ff2e74,#ff7ac0);
+  color:white; padding:20px 28px; border-radius:18px; font-size:1.3rem; text-align:center;
+  box-shadow:0 0 25px rgba(255,100,150,0.5); opacity:0; transition:opacity 0.8s ease;
+  z-index:9999;
+}
 
 /* ANIMAÇÕES */
 @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
@@ -79,6 +85,10 @@ button:active { transform:scale(0.94); }
     <div class="carousel-item"><img src="assets/outubro.jpg" alt="Outubro"><div class="caption">31/10 - Após o show do Michale Graves<br>Amo essa foto. Sua cara de maníaco está A+.</div></div>
     <div class="carousel-item"><img src="assets/novembro.jpg" alt="Novembro"><div class="caption">15/Novembro - Molchat Doma<br>A gente vira adolescente e faz loucuras. Cada uma vale a pena só por ser contigo.</div></div>
   </div>
+  <div style="margin-top:12px;">
+    <button id="prevBtn">⬅️</button>
+    <button id="nextBtn">➡️</button>
+  </div>
 </section>
 
 <!-- Declaração da Mari -->
@@ -98,100 +108,102 @@ button:active { transform:scale(0.94); }
 <!-- Botão surpresa -->
 <section id="surpresa">
   <button id="btnSurpresa">Clique aqui</button>
-  <div id="msgSurpresa">Diga as palavras certas para retirar seu tesouro!</div>
 </section>
 
+<!-- Mensagem surpresa -->
+<div id="mensagemSurpresa">Diga as palavras certas para retirar seu tesouro!</div>
+
 <script>
-// HERO clique → some + música + fade
+// HERO clique → fade + música
 const hero = document.getElementById('hero');
 const music = document.getElementById('bg-music');
 hero.addEventListener('click', ()=>{
-  hero.style.transition = 'opacity 1s ease';
-  hero.style.opacity = 0;
-  setTimeout(()=>{ hero.style.display='none'; },1000);
-  music.play().catch(()=>{});
-  document.querySelectorAll('section').forEach(s=>s.classList.add('visible'));
+  hero.style.transition='opacity 1s ease';
+  hero.style.opacity='0';
+  setTimeout(()=>{ hero.style.display='none'; music.play().catch(()=>{}); document.querySelectorAll('section').forEach(s=>s.classList.add('visible')); }, 1000);
 });
 
-// CARROSSEL DEVAGAR + controles (tocando na tela)
+// CARROSSEL DEVAGAR + botões
 let index=0;
 const items=document.querySelectorAll('.carousel-item');
-setInterval(()=>{
-  items[index].classList.remove('active');
+function showItem(i){
+  items.forEach(it=>it.classList.remove('active'));
+  items[i].classList.add('active');
+}
+let carouselInterval=setInterval(()=>{
   index=(index+1)%items.length;
-  items[index].classList.add('active');
+  showItem(index);
 },5000);
 
-// BOTÃO SURPRESA + CONFETE EXPLOSIVO
-const btn=document.getElementById('btnSurpresa');
-const msg=document.getElementById('msgSurpresa');
-btn.addEventListener('click',()=>{
-  msg.style.display='block';
-  launchConfetti();
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  index=(index-1+items.length)%items.length;
+  showItem(index);
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  index=(index+1)%items.length;
+  showItem(index);
 });
 
-function launchConfetti(){
-  const colors=['#ff2e74','#ff7ac0','#ffd4e6','#ffb3c1','#fffa65','#7df9ff','#9dff9d'];
-  const confCount = 250; // quantidade de confetes
-  const confs = [];
+// BOTÃO SURPRESA → confete + mensagem
+const btn=document.getElementById('btnSurpresa');
+const msg=document.getElementById('mensagemSurpresa');
+btn.addEventListener('click',()=>{
+  // mostrar mensagem
+  msg.style.opacity='1';
+  msg.scrollIntoView({behavior:'smooth', block:'center'});
 
-  for(let i=0;i<confCount;i++){
-    const c = document.createElement('div');
+  // confete explosivo
+  createConfetti();
+});
+
+// CONFETE EXPLOSIVO
+function createConfetti(){
+  const colors=['#ff2e74','#ff7ac0','#ffd4e6','#ffb3c1','#ff99c8','#ff80aa'];
+  const count=150;
+  for(let i=0;i<count;i++){
+    const c=document.createElement('div');
     c.style.position='fixed';
-    c.style.width=Math.random()*10+5+'px';
-    c.style.height=Math.random()*10+5+'px';
+    c.style.width='6px';
+    c.style.height='6px';
     c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    c.style.left=window.innerWidth/2 + (Math.random()-0.5)*200 + 'px';
-    c.style.top=window.innerHeight/2 + (Math.random()-0.5)*200 + 'px';
-    c.style.opacity=1;
-    c.style.borderRadius=Math.random()>0.5?'50%':'0';
+    c.style.left='50%';
+    c.style.top='50%';
+    c.style.borderRadius='50%';
     c.style.zIndex='9999';
     c.style.pointerEvents='none';
     document.body.appendChild(c);
-
     const angle=Math.random()*2*Math.PI;
-    const speed=Math.random()*8+4;
-    const dx=Math.cos(angle)*speed;
-    const dy=Math.sin(angle)*speed;
-    const rotSpeed=(Math.random()-0.5)*0.2;
-
-    confs.push({el:c, x:parseFloat(c.style.left), y:parseFloat(c.style.top), dx, dy, rot:0, rotSpeed});
+    const speed=Math.random()*10+4;
+    const vx=Math.cos(angle)*speed;
+    const vy=Math.sin(angle)*speed;
+    let x=window.innerWidth/2;
+    let y=window.innerHeight/2;
+    let life=0;
+    const anim=setInterval(()=>{
+      x+=vx; y+=vy; vy+=0.3; // gravidade
+      c.style.left=x+'px'; c.style.top=y+'px';
+      life++;
+      if(life>80){ clearInterval(anim); c.remove(); }
+    },15);
   }
-
-  let duration=0;
-  const interval=setInterval(()=>{
-    duration+=16;
-    confs.forEach(c=>{
-      c.x+=c.dx; c.y+=c.dy; c.rot+=c.rotSpeed;
-      c.el.style.left=c.x+'px';
-      c.el.style.top=c.y+'px';
-      c.el.style.transform=`rotate(${c.rot}rad)`;
-      c.dy+=0.2;
-      c.el.style.opacity -=0.005; // vai sumindo
-    });
-    if(duration>4000){
-      confs.forEach(c=>c.el.remove());
-      clearInterval(interval);
-    }
-  },16);
 }
 
-// PARTICULAS FLUTUANTES ROSADAS
+// PARTICULAS FLUTUANTES ROSA
 const canvas=document.getElementById('particles');
 const ctx=canvas.getContext('2d');
 canvas.width=innerWidth; canvas.height=innerHeight;
 const parts=[];
-for(let i=0;i<80;i++){
-  parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.7,dy:(Math.random()-0.5)*0.7,color:`rgba(255,100,150,0.5)`});
+for(let i=0;i<70;i++){
+  parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.6,dy:(Math.random()-0.5)*0.6});
 }
 function anim(){
   requestAnimationFrame(anim);
   ctx.clearRect(0,0,canvas.width,canvas.height);
   parts.forEach(p=>{
-    ctx.globalAlpha=0.8;
+    ctx.globalAlpha=0.5;
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=p.color;
+    ctx.fillStyle='#ff73a5';
     ctx.fill();
     p.x+=p.dx; p.y+=p.dy;
     if(p.x<0||p.x>innerWidth)p.dx*=-1;
