@@ -1,248 +1,347 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Surpresa</title>
-
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Arial',sans-serif;}
-  body{background:#111;color:#fff;overflow-x:hidden;}
+  /* reset + base */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:#0e0e10;
+    color:#fff;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+  }
 
-  section{padding:60px 20px;text-align:center;}
-  h2{font-size:2rem;color:#ff4f7a;margin-bottom:15px;}
-  p{font-size:1.3rem;line-height:1.6;max-width:600px;margin:auto;}
+  /* container geral */
+  .wrap{max-width:760px;margin:0 auto;padding:20px;}
 
-  /* Carrossel */
+  /* header / história */
+  .hero{
+    min-height:44vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    gap:18px;
+    background:linear-gradient(160deg,#1b0011 0%, #220011 60%, #2b0011 100%);
+    border-radius:14px;
+    padding:28px 18px;
+  }
+  .hero h1{
+    font-size:clamp(22px,6.5vw,34px);
+    line-height:1.05;
+    color:#ffd6e0;
+    letter-spacing:0.2px;
+  }
+  .hero p{
+    font-size:clamp(14px,3.6vw,18px);
+    color:#ffdfe6;
+    max-width:700px;
+  }
+  .cta{
+    margin-top:6px;
+    background:#ffd6e0;
+    color:#2a0010;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+  }
+
+  /* CARROSSEL (mobile-first) */
   .carousel{
+    margin:26px auto;
     width:100%;
     max-width:420px;
-    margin:30px auto;
     overflow:hidden;
-    border-radius:18px;
-  }
-  .carousel-track{
-    display:flex;
-    transition:transform .6s ease;
-  }
-  .carousel-item{
-    min-width:100%;
-    padding:25px;
+    border-radius:16px;
+    position:relative;
+    touch-action: pan-y;
   }
 
-  /* Polaroid */
-  .polaroid{
-    background:#fff;
-    padding:12px;
-    border-radius:10px;
-    color:#000;
-    box-shadow:0 6px 25px rgba(0,0,0,0.6);
+  .track{
+    display:flex;
+    transition:transform .55s cubic-bezier(.2,.9,.3,1);
+    will-change:transform;
   }
+
+  .slide{
+    min-width:100%;
+    padding:18px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+  }
+
+  /* polaroid look */
+  .polaroid{
+    width:100%;
+    background:#fff;
+    color:#000;
+    border-radius:12px;
+    padding:10px 10px 16px;
+    box-shadow:0 12px 30px rgba(0,0,0,.6);
+    transform-origin:center;
+  }
+
   .polaroid img{
     width:100%;
-    border-radius:6px;
-  }
-  .polaroid-text{
-    font-size:1rem;
-    padding:12px 5px 5px;
+    height:auto;
+    display:block;
+    border-radius:8px;
+    object-fit:cover;
   }
 
-  footer{
-    padding:40px;
-    text-align:center;
-    color:#aaa;
+  .caption{
+    margin-top:10px;
+    font-size:clamp(12px,3.5vw,15px);
+    color:#111;
+    line-height:1.35;
+    text-align:left;
+    white-space:pre-line;
+  }
+
+  /* paginações / indicadores */
+  .dots{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-top:12px;
+  }
+  .dot{
+    width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25);
+  }
+  .dot.active{background:#ff6b88;box-shadow:0 6px 12px rgba(255,107,136,0.18)}
+
+  /* sections */
+  section{padding:28px 8px}
+  section h2{
+    font-size:clamp(18px,5.5vw,24px);
+    color:#ff7a97;
+    margin-bottom:8px;
+  }
+  section p{font-size:clamp(14px,3.8vw,16px);color:#e9cbd3;line-height:1.5}
+
+  /* surpresa button */
+  .surprise{
+    display:inline-block;
+    background:#ff6b88;color:#1b0011;border:none;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;margin-top:12px;
+    box-shadow:0 12px 30px rgba(255,107,136,0.18);
+  }
+
+  /* popup */
+  #popup{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;background:#12070a;padding:22px;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.7);width:90%;max-width:420px}
+  #popup h3{color:#ffdce6;margin-bottom:8px}
+  #popup p{color:#ffdfe6;margin-bottom:12px}
+  #popup .close{background:#ffd6e0;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+
+  /* particles canvas behind */
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
+
+  /* responsivo maior */
+  @media(min-width:880px){
+    .wrap{max-width:920px}
+    .carousel{max-width:700px}
+    .slide{padding:26px}
   }
 </style>
 </head>
 <body>
+  <canvas id="particles"></canvas>
 
-<!-- MÚSICA -->
-<audio id="bg-music" loop>
-  <source src="assets/pictures-of-you.mp3" type="audio/mpeg">
-</audio>
+  <div class="wrap" style="position:relative;z-index:2;">
 
-<script>
-  // música só começa ao rolar a página
-  function startMusic(){
-    const audio=document.getElementById("bg-music");
-    audio.play().catch(()=>{});
-    window.removeEventListener("scroll", startMusic);
-  }
-  window.addEventListener("scroll", startMusic);
-</script>
-
-
-<!-- NOSSA HISTÓRIA -->
-<section>
-  <h2>Nossa História</h2>
-  <p>Um ano cheio de momentos incríveis, loucuras, shows, risadas, carinho e tudo que a gente construiu juntos. 💗</p>
-</section>
-
-
-<!-- CARROSSEL -->
-<div class="carousel">
-  <div class="carousel-track">
-
-    <!-- JANEIRO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/janeiro.jpg">
-        <div class="polaroid-text">
-          <b>12/01 – Casa do Rock Bar</b><br>
-          Um dos primeiros shows do retorno do Rainhas de Marte, e eu sempre te acompanhando!
-        </div>
-      </div>
+    <!-- HERO / NOSSA HISTÓRIA -->
+    <div class="hero" id="top">
+      <h1>Nossa História — 2 anos</h1>
+      <p>Momentos, shows, risadas e aventuras — tudo que nos trouxe até aqui. Desliza que eu te levo pela nossa jornada.</p>
+      <button class="cta" onclick="document.querySelector('.carousel').scrollIntoView({behavior:'smooth'})">Ver fotos</button>
     </div>
 
-    <!-- FEVEREIRO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/fevereiro.jpg">
-        <div class="polaroid-text">
-          <b>28/02 – Madame</b><br>
-          Um dos dias que você deu PT e nasceu aquele vídeo seu morrendo no metrô e dormindo sentado hahaha.
-        </div>
+    <!-- CARROSSEL -->
+    <div class="carousel" aria-label="Galeria de fotos">
+      <div class="track" id="track">
+        <!-- slides serão gerados pelo script -->
       </div>
+      <div class="dots" id="dots"></div>
     </div>
 
-    <!-- MARÇO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/março.jpg">
-        <div class="polaroid-text">
-          <b>15/03 – Simply Red (Allianz)</b><br>
-          Muita coisa aconteceu em março, mas viver esse show ao seu lado foi surreal.  
-          Muito amor e risadas.
-        </div>
-      </div>
-    </div>
+    <!-- CARTA -->
+    <section>
+      <h2>Minha Carta</h2>
+      <p id="carta-placeholder">(Escreva aqui a sua carta — quando quiser eu já insiro pra você.)</p>
+    </section>
 
-    <!-- ABRIL -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/abril.jpg">
-        <div class="polaroid-text">
-          <b>11/04 – Skylab</b><br>
-          Não tinha como deixar de fora.  
-          E esse dia foi tão gostoso!
-        </div>
-      </div>
-    </div>
+    <!-- O QUE AMO -->
+    <section>
+      <h2>O que eu amo em você</h2>
+      <p>Seu jeito palhaço, amoroso e determinado; a companhia nas pequenas loucuras; a coragem pra viver tudo comigo — e a vontade de fazer dar certo sempre.</p>
+      <button class="surprise" onclick="openPopup()">Clique aqui para seu presente</button>
+    </section>
 
-    <!-- MAIO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/maio.jpg">
-        <div class="polaroid-text">
-          <b>14/05 – System of a Down</b><br>
-          Inesquecível tudo o que vivemos naquele show.  
-          Com você tudo fica ainda mais especial.
-        </div>
-      </div>
-    </div>
-
-    <!-- JUNHO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/junho.jpg">
-        <div class="polaroid-text">
-          <b>14/06 – Alice Cooper + Madame</b><br>
-          Aproveitamos tanto esse dia!  
-          E no dia seguinte pegar atestado e ir no Deep Purple hahaha.
-        </div>
-      </div>
-    </div>
-
-    <!-- JULHO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/julho.jpg">
-        <div class="polaroid-text">
-          <b>26/07 – Na minha casa</b><br>
-          Mês das minhas férias, fizemos tanta coisa!  
-          Mas escolhi essa porque eu amo nossas bobeiras e caretas >< 
-        </div>
-      </div>
-    </div>
-
-    <!-- AGOSTO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/agosto.jpg">
-        <div class="polaroid-text">
-          <b>09/08 – Na sua mãe</b><br>
-          Uma das nossas várias fotos no elevador.  
-          Gosto muito dessa e me lembra coisas boas.
-        </div>
-      </div>
-    </div>
-
-    <!-- SETEMBRO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/setembro.jpg">
-        <div class="polaroid-text">
-          <b>07/09 – The Town</b><br>
-          Irritadíssimos depois do Iggy Pop hahaha!  
-          Que dia meu amigo… que dia!!!
-        </div>
-      </div>
-    </div>
-
-    <!-- OUTUBRO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/outubro.jpg">
-        <div class="polaroid-text">
-          <b>31/10 – Após o show do Michale Graves</b><br>
-          Nem preciso dizer que eu amo essa foto.  
-          Sua cara de maníaco está A+.
-        </div>
-      </div>
-    </div>
-
-    <!-- NOVEMBRO -->
-    <div class="carousel-item">
-      <div class="polaroid">
-        <img src="assets/novembro.jpg">
-        <div class="polaroid-text">
-          <b>15/11 – Molchat Doma</b><br>
-          Do nada viramos adolescentes de novo e fazemos loucuras.  
-          Cada uma delas vale a pena só por ser contigo ♡
-        </div>
-      </div>
-    </div>
-
+    <footer style="text-align:center;padding:28px 0;color:#b9a2ad">Feito com carinho</footer>
   </div>
-</div>
+
+  <!-- popup -->
+  <div id="popup">
+    <h3>Surpresa!</h3>
+    <p>Pronto pra pegar o presente? Vou te entregar a caixinha :)</p>
+    <button class="close" onclick="closePopup()">Fechar</button>
+  </div>
+
+  <!-- áudio (muted para permitir autoplay, será desmutado no primeiro scroll/touch) -->
+  <!-- Música: The Cure - Pictures Of You -->
+  <audio id="bg-audio" loop muted>
+    <source src="assets/pictures-of-you.mp3" type="audio/mpeg">
+  </audio>
 
 <script>
-  // carrossel automático
-  const track = document.querySelector(".carousel-track");
-  const total = track.children.length;
-  let index = 0;
+/* ====== fotos + legendas (usando exatamente os nomes que você confirmou) ====== */
+const slides = [
+  { file: 'assets/janeiro.jpg', caption: "12/Janeiro - Casa do Rock Bar\nUm dos primeiros shows de retorno do Rainhas de Marte, e eu sempre te acompanhando!" },
+  { file: 'assets/fevereiro.jpg', caption: "28/Fevereiro - Madame\nFato curioso: Foi um dos dias que você deu pt e deu origem àquele vídeo de você morrendo no metro e dormindo sentado hahaha" },
+  { file: 'assets/março.jpg', caption: "15/Março - Simply Red (Allianz)\nFizemos muitas coisas em março, mas viver esse show ao seu lado foi incrível.\nMuito amor e ridadas." },
+  { file: 'assets/abril.jpg', caption: "11/Abril - Skylab\nNão tinha como deixar de fora né?\nE esse dia foi muito gostoso!" },
+  { file: 'assets/maio.jpg', caption: "14/Maio - System of a Down\nMano, inesquecível tudo o que vivemos naquele show.\nTer você ao meu lado compartilhando desses momentos faz tudo ser ainda mais especial." },
+  { file: 'assets/junho.jpg', caption: "14/Junho - Alice Cooper + Madame\nNossa, pelo que me lembro, nós aproveitamos muito esse dia, foi muito bom fazer essa loucura.\nE no dia seguinte pegar um atestado e ir no Deep Purple!!!" },
+  { file: 'assets/julho.jpg', caption: "26/Julho - Na minha casa\nBom, mês das minhas férias e fizemos muitas coisas juntos, porém escolhi essa foto pois eu amo nossos momentos de bobeira e caretas ><" },
+  { file: 'assets/agosto.jpg', caption: "09/Agosto - Na sua mãe\nUma das nossas várias fotos no elevador.\nGostei bastante dessa e me lembra coisas boas." },
+  { file: 'assets/setembro.jpg', caption: "07/Setembro - The town\nBem pouco felizes após o show do Iggy pop!!!\nQue dia meu amigo... Que dia!!!" },
+  { file: 'assets/outubro.jpg', caption: "31/10 - Após o show do Michale Graves\nNem preciso falar que eu amo essa foto né?!\nSua cara de maníaco está A+" },
+  { file: 'assets/novembro.jpg', caption: "15/Novembro - Molchat Doma\nE do nada a gente volta a ser adolescente e faz umas loucuras muito boas. Mas cada loucura que eu faço vale total a pena, só por cometer elas contigo ♡" }
+];
 
-  setInterval(() => {
-    index = (index + 1) % total;
-    track.style.transform = `translateX(-${index * 100}%)`;
-  }, 3500);
+/* ====== render slides ====== */
+const track = document.getElementById('track');
+const dotsEl = document.getElementById('dots');
+
+slides.forEach((s, i) => {
+  const slide = document.createElement('div');
+  slide.className = 'slide';
+
+  slide.innerHTML = `
+    <div class="polaroid" role="group" aria-label="foto ${i+1}">
+      <img src="${s.file}" alt="foto ${i+1}">
+      <div class="caption">${s.caption}</div>
+    </div>
+  `;
+  track.appendChild(slide);
+
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0 ? ' active' : '');
+  d.dataset.index = i;
+  d.addEventListener('click', ()=> goTo(i));
+  dotsEl.appendChild(d);
+});
+
+/* ====== carousel control ====== */
+let idx = 0;
+const total = slides.length;
+let interval = null;
+const AUTO_MS = 3500;
+
+function goTo(i){
+  idx = i % total;
+  if(idx<0) idx = total-1;
+  track.style.transform = `translateX(-${idx*100}%)`;
+  updateDots();
+}
+
+function next(){
+  goTo((idx+1)%total);
+}
+
+function updateDots(){
+  Array.from(dotsEl.children).forEach((el, i)=> el.classList.toggle('active', i===idx));
+}
+
+/* auto play */
+function startAuto(){
+  if(interval) clearInterval(interval);
+  interval = setInterval(next, AUTO_MS);
+}
+startAuto();
+
+/* pause on touchstart drag behavior (basic) */
+let startX = 0, moveX = 0, dragging=false;
+track.addEventListener('touchstart', (e)=>{
+  if(e.touches.length!==1) return;
+  startX = e.touches[0].clientX;
+  dragging=true;
+  clearInterval(interval);
+});
+track.addEventListener('touchmove', (e)=>{
+  if(!dragging) return;
+  moveX = e.touches[0].clientX - startX;
+  track.style.transition = 'none';
+  track.style.transform = `translateX(calc(-${idx*100}% + ${moveX}px))`;
+});
+track.addEventListener('touchend', (e)=>{
+  dragging=false;
+  track.style.transition = '';
+  if(Math.abs(moveX) > 60){
+    if(moveX < 0) idx = Math.min(idx+1, total-1);
+    else idx = Math.max(idx-1, 0);
+  }
+  moveX = 0;
+  goTo(idx);
+  startAuto();
+});
+
+/* ====== play music on first scroll / touch / click ====== */
+const audio = document.getElementById('bg-audio');
+
+function unlockAudio(){
+  // try to play and unmute
+  audio.muted = false;
+  audio.play().catch(()=>{/*ignore*/});
+  // remove listeners after first activation
+  window.removeEventListener('scroll', unlockAudio);
+  window.removeEventListener('touchstart', unlockAudio);
+  window.removeEventListener('click', unlockAudio);
+}
+window.addEventListener('scroll', unlockAudio, {passive:true, once:true});
+window.addEventListener('touchstart', unlockAudio, {passive:true, once:true});
+window.addEventListener('click', unlockAudio, {once:true});
+
+/* ====== popup handlers ====== */
+function openPopup(){ document.getElementById('popup').style.display = 'block'; }
+function closePopup(){ document.getElementById('popup').style.display = 'none'; }
+
+/* ====== small particle background (light hearts/dots) ====== */
+const c = document.getElementById('particles');
+const ctx = c.getContext('2d');
+let W = c.width = innerWidth;
+let H = c.height = innerHeight;
+window.addEventListener('resize', ()=>{ W = c.width = innerWidth; H = c.height = innerHeight; });
+
+const hearts = [];
+for(let i=0;i<80;i++){
+  hearts.push({x:Math.random()*W, y:Math.random()*H, r: Math.random()*4+2, dx:(Math.random()-0.5)*0.4, dy:(Math.random()-0.5)*0.4});
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  hearts.forEach(h=>{
+    h.x += h.dx; h.y += h.dy;
+    if(h.x<0||h.x>W) h.dx *= -1;
+    if(h.y<0||h.y>H) h.dy *= -1;
+    ctx.beginPath();
+    ctx.arc(h.x,h.y,h.r,0,Math.PI*2);
+    ctx.fillStyle = 'rgba(255,80,120,0.07)';
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
 </script>
-
-
-<!-- CARTA -->
-<section>
-  <h2>Minha Carta</h2>
-  <p>Aqui você coloca sua declaração, tudo o que você quer dizer pra ele, seus sentimentos, suas lembranças… tudo do seu jeitinho. 💌</p>
-</section>
-
-<!-- O QUE AMO EM VOCÊ -->
-<section>
-  <h2>O que eu amo em você</h2>
-  <p>Seu jeito palhaço, amoroso, seu abraço, sua companhia… e tudo o que faz eu te escolher todos os dias. 💖</p>
-</section>
-
-<footer>Feito com amor</footer>
-
 </body>
 </html>
