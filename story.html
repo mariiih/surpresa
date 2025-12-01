@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surpresa — Nossa História</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#b93a3a;--gold:#c99b3f;--muted:#6b6b6b;--ink:#222}
+body{margin:0;font-family:Inter,Arial;background:linear-gradient(180deg,#fff7f4,#fdeeea);color:var(--ink)}
+.container{max-width:900px;margin:28px auto;padding:18px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.title{font-family:Playfair Display;font-size:28px;margin:0}
+.lead{color:var(--muted);margin:6px 0 18px}
+.card{background:white;padding:18px;border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,0.06)}
+.photo-row{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.photo-row img{width:48%;border-radius:10px;object-fit:cover}
+@media(max-width:700px){.photo-row img{width:100%}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <div>
+      <h1 class="title">A Nossa Jornada</h1>
+      <p class="lead">Aqui fica a sua carta — cola o texto que você escreveu.</p>
+    </div>
+    <div><button onclick="location.href='index.html'">← Voltar ao mapa</button></div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div id="carta">
+        <!-- COLE SUA CARTA AQUI -->
+        <p style="margin:0;color:var(--muted)">[Cole sua carta/emocional text aqui — você pode colar parágrafos e fotos]</p>
+      </div>
+    </div>
+
+    <section style="margin-top:18px">
+      <h3 style="font-family:Playfair Display;margin:0 0 8px">Alguns momentos</h3>
+      <div class="photo-row">
+        <img src="assets/photo1.jpg" alt="momento1">
+        <img src="assets/photo2.jpg" alt="momento2">
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>
