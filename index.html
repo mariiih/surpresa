@@ -2,202 +2,247 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width">
+
 <title>Surpresa</title>
 
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Arial',sans-serif; scroll-behavior:smooth; }
-  body { background:#111; color:#fff; overflow-x:hidden; font-size:16px; }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Arial',sans-serif;}
+  body{background:#111;color:#fff;overflow-x:hidden;}
 
-  /* Fundo animado */
-  #particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
-
-  /* Hero */
-  .hero { position:relative; z-index:1; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background:linear-gradient(135deg, #ff0055, #ff5500); overflow:hidden; }
-  .hero h1 { font-size:3rem; margin-bottom:20px; text-shadow:2px 2px 5px #000; }
-  .hero button { padding:12px 25px; font-size:1.2rem; border:none; border-radius:8px; background:#fff; color:#ff0055; cursor:pointer; transition:0.3s; }
-  .hero button:hover { background:#ff0055; color:#fff; transform:scale(1.1); }
+  section{padding:60px 20px;text-align:center;}
+  h2{font-size:2rem;color:#ff4f7a;margin-bottom:15px;}
+  p{font-size:1.3rem;line-height:1.6;max-width:600px;margin:auto;}
 
   /* Carrossel */
-  .carousel { width:90%; max-width:500px; margin:50px auto; position: relative; overflow:hidden; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.5); z-index:1; }
-  .carousel-images { display:flex; transition: transform 0.5s ease-in-out; }
-  .carousel-images img { width:100%; flex-shrink:0; border:5px solid #fff; border-radius:15px; transition:0.5s; }
-  .carousel-images img:hover { transform: scale(1.05); filter: brightness(1.2); }
+  .carousel{
+    width:100%;
+    max-width:420px;
+    margin:30px auto;
+    overflow:hidden;
+    border-radius:18px;
+  }
+  .carousel-track{
+    display:flex;
+    transition:transform .6s ease;
+  }
+  .carousel-item{
+    min-width:100%;
+    padding:25px;
+  }
 
-  /* Seções */
-  section { padding:80px 20px; text-align:center; position:relative; z-index:1; }
-  section h2 { font-size:2.2rem; color:#ff0055; margin-bottom:20px; text-shadow:1px 1px 3px #000; }
-  section p { font-size:1.2rem; line-height:1.5; max-width:600px; margin:0 auto; }
+  /* Polaroid */
+  .polaroid{
+    background:#fff;
+    padding:12px;
+    border-radius:10px;
+    color:#000;
+    box-shadow:0 6px 25px rgba(0,0,0,0.6);
+  }
+  .polaroid img{
+    width:100%;
+    border-radius:6px;
+  }
+  .polaroid-text{
+    font-size:1rem;
+    padding:12px 5px 5px;
+  }
 
-  /* Botão surpresa */
-  .surprise-btn { padding:15px 30px; background:#fff; color:#ff0055; border:none; border-radius:12px; font-size:1.3rem; cursor:pointer; transition:0.3s; margin-top:30px; box-shadow:0 5px 15px rgba(255,0,85,0.5); }
-  .surprise-btn:hover { background:#ff0055; color:#fff; transform: scale(1.1); box-shadow:0 5px 20px rgba(255,0,85,1); }
-
-  /* Popup */
-  #popup { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#222; padding:30px; border-radius:15px; box-shadow:0 5px 30px rgba(255,0,85,0.7); z-index:10; text-align:center; }
-  #popup button { margin-top:20px; padding:10px 20px; background:#ff0055; color:#fff; border:none; border-radius:8px; cursor:pointer; transition:0.3s; }
-  #popup button:hover { background:#fff; color:#ff0055; }
-
-  /* Fade-in */
-  .fade-in { opacity:0; transform: translateY(30px); transition: opacity 1s ease, transform 1s ease; }
-  .fade-in.show { opacity:1; transform: translateY(0); }
-
-  footer { padding:40px 20px; text-align:center; background:#222; position:relative; z-index:1; }
-
-  /* Ajustes para celular */
-  @media (max-width: 600px) {
-    body { font-size: 18px; }
-    .hero h1 { font-size: 2.5rem; }
-    section h2 { font-size: 2rem; }
-    section p { font-size: 1.4rem; }
-    .carousel { width: 95%; max-width: 100%; }
-    .carousel-images img { border: 3px solid #fff; border-radius: 10px; }
-    .surprise-btn { font-size: 1.5rem; padding: 18px 35px; }
+  footer{
+    padding:40px;
+    text-align:center;
+    color:#aaa;
   }
 </style>
 </head>
 <body>
 
-<!-- Fundo partículas -->
-<canvas id="particles"></canvas>
+<!-- MÚSICA -->
+<audio id="bg-music" loop>
+  <source src="assets/pictures-of-you.mp3" type="audio/mpeg">
+</audio>
 
-<!-- Hero -->
-<div class="hero fade-in">
-  <h1>Bem-vindo à Nossa História</h1>
+<script>
+  // música só começa ao rolar a página
+  function startMusic(){
+    const audio=document.getElementById("bg-music");
+    audio.play().catch(()=>{});
+    window.removeEventListener("scroll", startMusic);
+  }
+  window.addEventListener("scroll", startMusic);
+</script>
 
-  <button onclick="document.querySelector('#carousel').scrollIntoView({behavior:'smooth'})">
-    Começar a aventura
-  </button>
 
-  <!-- Música (The Cure - Pictures of You) -->
-  <audio id="bg-music" src="assets/pictures-of-you.mp3" loop autoplay></audio>
+<!-- NOSSA HISTÓRIA -->
+<section>
+  <h2>Nossa História</h2>
+  <p>Um ano cheio de momentos incríveis, loucuras, shows, risadas, carinho e tudo que a gente construiu juntos. 💗</p>
+</section>
 
-  <button onclick="toggleMusic()" style="position:absolute; bottom:20px; right:20px; background:#fff; color:#ff0055; border:none; padding:10px; border-radius:5px;">
-    Play/Pause
-  </button>
-</div>
 
-<!-- Carrossel -->
-<div id="carousel" class="carousel fade-in">
-  <div class="carousel-images">
-    <img src="foto1.jpg" alt="Foto 1">
-    <img src="foto2.jpg" alt="Foto 2">
-    <img src="foto3.jpg" alt="Foto 3">
-    <img src="foto4.jpg" alt="Foto 4">
+<!-- CARROSSEL -->
+<div class="carousel">
+  <div class="carousel-track">
+
+    <!-- JANEIRO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/janeiro.jpg">
+        <div class="polaroid-text">
+          <b>12/01 – Casa do Rock Bar</b><br>
+          Um dos primeiros shows do retorno do Rainhas de Marte, e eu sempre te acompanhando!
+        </div>
+      </div>
+    </div>
+
+    <!-- FEVEREIRO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/fevereiro.jpg">
+        <div class="polaroid-text">
+          <b>28/02 – Madame</b><br>
+          Um dos dias que você deu PT e nasceu aquele vídeo seu morrendo no metrô e dormindo sentado hahaha.
+        </div>
+      </div>
+    </div>
+
+    <!-- MARÇO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/março.jpg">
+        <div class="polaroid-text">
+          <b>15/03 – Simply Red (Allianz)</b><br>
+          Muita coisa aconteceu em março, mas viver esse show ao seu lado foi surreal.  
+          Muito amor e risadas.
+        </div>
+      </div>
+    </div>
+
+    <!-- ABRIL -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/abril.jpg">
+        <div class="polaroid-text">
+          <b>11/04 – Skylab</b><br>
+          Não tinha como deixar de fora.  
+          E esse dia foi tão gostoso!
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/maio.jpg">
+        <div class="polaroid-text">
+          <b>14/05 – System of a Down</b><br>
+          Inesquecível tudo o que vivemos naquele show.  
+          Com você tudo fica ainda mais especial.
+        </div>
+      </div>
+    </div>
+
+    <!-- JUNHO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/junho.jpg">
+        <div class="polaroid-text">
+          <b>14/06 – Alice Cooper + Madame</b><br>
+          Aproveitamos tanto esse dia!  
+          E no dia seguinte pegar atestado e ir no Deep Purple hahaha.
+        </div>
+      </div>
+    </div>
+
+    <!-- JULHO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/julho.jpg">
+        <div class="polaroid-text">
+          <b>26/07 – Na minha casa</b><br>
+          Mês das minhas férias, fizemos tanta coisa!  
+          Mas escolhi essa porque eu amo nossas bobeiras e caretas >< 
+        </div>
+      </div>
+    </div>
+
+    <!-- AGOSTO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/agosto.jpg">
+        <div class="polaroid-text">
+          <b>09/08 – Na sua mãe</b><br>
+          Uma das nossas várias fotos no elevador.  
+          Gosto muito dessa e me lembra coisas boas.
+        </div>
+      </div>
+    </div>
+
+    <!-- SETEMBRO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/setembro.jpg">
+        <div class="polaroid-text">
+          <b>07/09 – The Town</b><br>
+          Irritadíssimos depois do Iggy Pop hahaha!  
+          Que dia meu amigo… que dia!!!
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTUBRO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/outubro.jpg">
+        <div class="polaroid-text">
+          <b>31/10 – Após o show do Michale Graves</b><br>
+          Nem preciso dizer que eu amo essa foto.  
+          Sua cara de maníaco está A+.
+        </div>
+      </div>
+    </div>
+
+    <!-- NOVEMBRO -->
+    <div class="carousel-item">
+      <div class="polaroid">
+        <img src="assets/novembro.jpg">
+        <div class="polaroid-text">
+          <b>15/11 – Molchat Doma</b><br>
+          Do nada viramos adolescentes de novo e fazemos loucuras.  
+          Cada uma delas vale a pena só por ser contigo ♡
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- Nossa História -->
-<section class="fade-in">
-  <h2>Nossa História</h2>
-  <p>Momentos incríveis juntos, aventuras, risadas e tudo que construiu nosso amor até aqui.</p>
-</section>
-
-<!-- O que amo em você -->
-<section class="fade-in">
-  <h2>O que amo em você</h2>
-  <p>Seu jeito palhaço, amoroso e determinado que me conquista todos os dias.</p>
-</section>
-
-<!-- Carta -->
-<section class="fade-in">
-  <h2>Minha Carta</h2>
-  <p>Aqui você pode escrever sua declaração de amor, lembranças e tudo que sente pelo Bizo.</p>
-</section>
-
-<!-- Botão surpresa -->
-<section class="fade-in">
-  <button class="surprise-btn" onclick="openPopup()">Clique aqui para seu presente</button>
-</section>
-
-<!-- Popup -->
-<div id="popup">
-  <h2>Surpresa!</h2>
-  <p>Prepare-se para receber seu presente especial!</p>
-  <button onclick="closePopup()">Fechar</button>
-</div>
-
-<footer class="fade-in">
-  Feito com amor
-</footer>
-
 <script>
-  // Fade-in
-  const faders = document.querySelectorAll('.fade-in');
-  window.addEventListener('scroll', () => {
-    faders.forEach(fader => {
-      const top = fader.getBoundingClientRect().top;
-      if (top < window.innerHeight - 50) {
-        fader.classList.add('show');
-      }
-    });
-  });
-
-  // Carrossel automático
-  const carouselImages = document.querySelector('.carousel-images');
-  const totalImages = carouselImages.children.length;
+  // carrossel automático
+  const track = document.querySelector(".carousel-track");
+  const total = track.children.length;
   let index = 0;
+
   setInterval(() => {
-    index = (index + 1) % totalImages;
-    carouselImages.style.transform = `translateX(-${index * 100}%)`;
+    index = (index + 1) % total;
+    track.style.transform = `translateX(-${index * 100}%)`;
   }, 3500);
-
-  // Música
-  const music = document.getElementById('bg-music');
-  function toggleMusic() {
-    if (music.paused) {
-      music.play();
-    } else {
-      music.pause();
-    }
-  }
-
-  // Partículas
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
-  window.addEventListener('resize', () => {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  });
-
-  const particles = [];
-  for (let i = 0; i < 100; i++) {
-    particles.push({ 
-      x: Math.random() * w, 
-      y: Math.random() * h, 
-      r: Math.random() * 6 + 2, 
-      dx: (Math.random() - 0.5) * 2, 
-      dy: (Math.random() - 0.5) * 2 
-    });
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, w, h);
-    particles.forEach(p => {
-      p.x += p.dx;
-      p.y += p.dy;
-      if (p.x < 0 || p.x > w) p.dx *= -1;
-      if (p.y < 0 || p.y > h) p.dy *= -1;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,0,85,0.7)';
-      ctx.fill();
-    });
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  // Popup
-  function openPopup() {
-    popup.style.display = 'block';
-  }
-  function closePopup() {
-    popup.style.display = 'none';
-  }
 </script>
+
+
+<!-- CARTA -->
+<section>
+  <h2>Minha Carta</h2>
+  <p>Aqui você coloca sua declaração, tudo o que você quer dizer pra ele, seus sentimentos, suas lembranças… tudo do seu jeitinho. 💌</p>
+</section>
+
+<!-- O QUE AMO EM VOCÊ -->
+<section>
+  <h2>O que eu amo em você</h2>
+  <p>Seu jeito palhaço, amoroso, seu abraço, sua companhia… e tudo o que faz eu te escolher todos os dias. 💖</p>
+</section>
+
+<footer>Feito com amor</footer>
 
 </body>
 </html>
