@@ -3,92 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nosso Amor - 2 Anos</title>
+<title>Surpresa</title>
 <style>
-  /* Reset e estilo base */
-  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
-  body { background-color: #000; color: #fff; scroll-behavior: smooth; }
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Arial',sans-serif; scroll-behavior:smooth; }
+  body { background:#111; color:#fff; overflow-x:hidden; }
+
+  /* Fundo animado de partículas/corações */
+  #particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 
   /* Hero */
-  .hero {
-    height: 100vh;
-    display:flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center;
-    background: linear-gradient(135deg, #000 0%, #1a0000 100%);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero h1 { font-size: 3rem; color: #ff0000; margin-bottom: 20px; }
-  .hero button { padding: 10px 20px; font-size: 1rem; background: #ff0000; color: #fff; border: none; cursor: pointer; border-radius: 5px; }
+  .hero { position:relative; z-index:1; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background:linear-gradient(135deg, #ff0055, #ff5500); overflow:hidden; }
+  .hero h1 { font-size:3rem; margin-bottom:20px; text-shadow:2px 2px 5px #000; }
+  .hero button { padding:12px 25px; font-size:1.2rem; border:none; border-radius:8px; background:#fff; color:#ff0055; cursor:pointer; transition:0.3s; }
+  .hero button:hover { background:#ff0055; color:#fff; transform:scale(1.1); }
 
   /* Carrossel */
-  .carousel { width: 90%; max-width: 500px; margin: 50px auto; position: relative; overflow: hidden; border-radius: 10px; }
-  .carousel-images { display: flex; transition: transform 0.5s ease-in-out; }
-  .carousel-images img { width: 100%; flex-shrink: 0; }
-
-  .carousel-buttons { position: absolute; top:50%; width:100%; display:flex; justify-content: space-between; transform: translateY(-50%); }
-  .carousel-buttons button { background: rgba(255,0,0,0.7); border:none; color:#fff; font-size:1.5rem; padding:5px 10px; cursor:pointer; border-radius:5px; }
+  .carousel { width:90%; max-width:500px; margin:50px auto; position: relative; overflow:hidden; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.5); z-index:1; }
+  .carousel-images { display:flex; transition: transform 0.5s ease-in-out; }
+  .carousel-images img { width:100%; flex-shrink:0; border:5px solid #fff; border-radius:15px; transition:0.3s; }
+  .carousel-images img:hover { transform: scale(1.05); }
 
   /* Seções */
-  section { padding: 80px 20px; text-align: center; }
-  section h2 { font-size: 2rem; color: #ff0000; margin-bottom: 20px; }
-  section p { font-size: 1.1rem; line-height:1.5; max-width:600px; margin:0 auto; }
+  section { padding:80px 20px; text-align:center; position:relative; z-index:1; }
+  section h2 { font-size:2.2rem; color:#ff0055; margin-bottom:20px; text-shadow:1px 1px 3px #000; }
+  section p { font-size:1.2rem; line-height:1.5; max-width:600px; margin:0 auto; }
 
-  /* Animações de fade-in */
-  .fade-in { opacity:0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+  /* Botão surpresa */
+  .surprise-btn { padding:15px 30px; background:#fff; color:#ff0055; border:none; border-radius:12px; font-size:1.3rem; cursor:pointer; transition:0.3s; margin-top:30px; box-shadow:0 5px 15px rgba(0,0,0,0.5); }
+  .surprise-btn:hover { background:#ff0055; color:#fff; transform: scale(1.1); }
+
+  /* Fade-in */
+  .fade-in { opacity:0; transform: translateY(30px); transition: opacity 1s ease, transform 1s ease; }
   .fade-in.show { opacity:1; transform: translateY(0); }
 
   /* Footer */
-  footer { padding: 40px 20px; text-align:center; background:#111; }
+  footer { padding:40px 20px; text-align:center; background:#222; position:relative; z-index:1; }
 </style>
 </head>
 <body>
 
+<!-- Fundo partículas -->
+<canvas id="particles"></canvas>
+
 <!-- Hero -->
-<div class="hero">
-  <h1>2 Anos Juntos 💖</h1>
-  <button onclick="document.querySelector('#carousel').scrollIntoView({behavior:'smooth'})">Começar</button>
-  <audio id="bg-music" src="musica.mp3" loop></audio>
-  <button onclick="toggleMusic()" style="position:absolute; bottom:20px; right:20px; background:#ff0000; border:none; padding:10px; border-radius:5px;">🎵 Play/Pause</button>
+<div class="hero fade-in">
+  <h1>Bem-vindo à Nossa História 💖</h1>
+  <button onclick="document.querySelector('#carousel').scrollIntoView({behavior:'smooth'})">Começar a aventura</button>
+  <audio id="bg-music" src="music.mp3" loop autoplay></audio>
+  <button onclick="toggleMusic()" style="position:absolute; bottom:20px; right:20px; background:#fff; color:#ff0055; border:none; padding:10px; border-radius:5px;">🎵 Play/Pause</button>
 </div>
 
 <!-- Carrossel -->
-<div id="carousel" class="carousel">
+<div id="carousel" class="carousel fade-in">
   <div class="carousel-images">
     <img src="foto1.jpg" alt="Foto 1">
     <img src="foto2.jpg" alt="Foto 2">
     <img src="foto3.jpg" alt="Foto 3">
-  </div>
-  <div class="carousel-buttons">
-    <button onclick="prev()">‹</button>
-    <button onclick="next()">›</button>
+    <img src="foto4.jpg" alt="Foto 4">
   </div>
 </div>
 
 <!-- Nossa História -->
-<section id="historia" class="fade-in">
+<section class="fade-in">
   <h2>Nossa História</h2>
-  <p>Aqui você pode contar como se conheceram, momentos especiais e tudo que marcou nosso amor nesses 2 anos.</p>
+  <p>Momentos incríveis juntos, aventuras, risadas e tudo que construiu nosso amor até aqui.</p>
 </section>
 
-<!-- O que mais amo em você -->
-<section id="amo" class="fade-in">
-  <h2>O que mais amo em você</h2>
-  <p>Seu sorriso, seu jeito de me apoiar, nossa sintonia incrível... tudo isso me faz te amar cada vez mais!</p>
+<!-- O que amo em você -->
+<section class="fade-in">
+  <h2>O que amo em você</h2>
+  <p>Seu jeito palhaço, amoroso e determinado que me conquista todos os dias.</p>
 </section>
 
-<!-- Nossos planos pro futuro -->
-<section id="planos" class="fade-in">
-  <h2>Nossos Planos pro Futuro</h2>
-  <p>Viajar juntos, construir nossa casa, ter aventuras inesquecíveis e continuar sempre lado a lado.</p>
+<!-- Carta/Declaração -->
+<section class="fade-in">
+  <h2>Minha Carta</h2>
+  <p>Aqui você pode escrever sua declaração de amor, lembranças e tudo que sente pelo Bizo.</p>
 </section>
 
-<!-- Footer -->
+<!-- Botão surpresa -->
+<section class="fade-in">
+  <button class="surprise-btn" onclick="alert('Surpresa entregue! 🎁')">Clique aqui para seu presente 🎁</button>
+</section>
+
 <footer class="fade-in">
-  💖 Feito com amor para você
+  💖 Feito com amor
 </footer>
 
 <script>
@@ -103,25 +102,43 @@
     });
   });
 
-  // Carrossel
+  // Carrossel automático
   const carouselImages = document.querySelector('.carousel-images');
   const totalImages = carouselImages.children.length;
   let index = 0;
-  function next(){
+  setInterval(() => {
     index = (index + 1) % totalImages;
     carouselImages.style.transform = `translateX(-${index * 100}%)`;
-  }
-  function prev(){
-    index = (index - 1 + totalImages) % totalImages;
-    carouselImages.style.transform = `translateX(-${index * 100}%)`;
-  }
+  }, 3500);
 
   // Música
   const music = document.getElementById('bg-music');
-  function toggleMusic(){
-    if(music.paused){ music.play(); }
-    else { music.pause(); }
+  function toggleMusic(){ if(music.paused){ music.play(); } else { music.pause(); } }
+
+  // Partículas/corações simples
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  window.addEventListener('resize',()=>{w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight;});
+
+  const particles = [];
+  for(let i=0;i<80;i++){ particles.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*6+2, dx:(Math.random()-0.5)*2, dy:(Math.random()-0.5)*2}); }
+
+  function animate(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x+=p.dx; p.y+=p.dy;
+      if(p.x<0||p.x>w)p.dx*=-1;
+      if(p.y<0||p.y>h)p.dy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,0,85,0.7)';
+      ctx.fill();
+    });
+    requestAnimationFrame(animate);
   }
+  animate();
 </script>
 
 </body>
