@@ -1,329 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Surpresa — Mapa do Tesouro</title>
-
-<!-- Fonts: Playfair Display (romântico) + Cinzel (medieval) -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosso Amor - 2 Anos</title>
 <style>
-:root{
-  --bg:#f6efe8;        /* parchment paper */
-  --wine:#6b0f1a;      /* vinho profundo */
-  --ink:#111111;
-  --gold:#c9a44a;
-  --muted:#6b5950;
-  --accent:#7a1220;
-  --maxw:1200px;
-}
+  /* Reset e estilo base */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
+  body { background-color: #000; color: #fff; scroll-behavior: smooth; }
 
-/* Basic reset */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: "Playfair Display", serif;
-  background:linear-gradient(180deg,#efe7dc 0%, #f6efe8 100%);
-  color:var(--ink);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
+  /* Hero */
+  .hero {
+    height: 100vh;
+    display:flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    background: linear-gradient(135deg, #000 0%, #1a0000 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero h1 { font-size: 3rem; color: #ff0000; margin-bottom: 20px; }
+  .hero button { padding: 10px 20px; font-size: 1rem; background: #ff0000; color: #fff; border: none; cursor: pointer; border-radius: 5px; }
 
-/* page wrapper */
-.wrap{max-width:var(--maxw);margin:18px auto;padding:16px}
+  /* Carrossel */
+  .carousel { width: 90%; max-width: 500px; margin: 50px auto; position: relative; overflow: hidden; border-radius: 10px; }
+  .carousel-images { display: flex; transition: transform 0.5s ease-in-out; }
+  .carousel-images img { width: 100%; flex-shrink: 0; }
 
-/* header */
-.header{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;
-}
-.brand{display:flex;gap:12px;align-items:center}
-.logo{
-  width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--wine),var(--accent));
-  display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-family:Cinzel,serif;
-  box-shadow:0 8px 26px rgba(17,10,8,0.12)
-}
-.title{font-size:20px;margin:0;font-family:Cinzel,serif;color:var(--wine)}
-.subtitle{font-size:13px;margin:0;color:var(--muted)}
+  .carousel-buttons { position: absolute; top:50%; width:100%; display:flex; justify-content: space-between; transform: translateY(-50%); }
+  .carousel-buttons button { background: rgba(255,0,0,0.7); border:none; color:#fff; font-size:1.5rem; padding:5px 10px; cursor:pointer; border-radius:5px; }
 
-/* map container */
-.map-wrap{
-  position:relative;
-  background:linear-gradient(180deg, rgba(255,255,250,0.7), rgba(255,250,240,0.8));
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 20px 50px rgba(0,0,0,0.08);
-  border:1px solid rgba(0,0,0,0.06);
-  overflow:hidden;
-}
+  /* Seções */
+  section { padding: 80px 20px; text-align: center; }
+  section h2 { font-size: 2rem; color: #ff0000; margin-bottom: 20px; }
+  section p { font-size: 1.1rem; line-height:1.5; max-width:600px; margin:0 auto; }
 
-/* map area (responsive) */
-.map-area{
-  width:100%;
-  aspect-ratio: 16 / 9;
-  min-height:420px;
-  background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.02) 0 2px, transparent 2px 10px );
-  border-radius:12px;
-  position:relative;
-}
+  /* Animações de fade-in */
+  .fade-in { opacity:0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+  .fade-in.show { opacity:1; transform: translateY(0); }
 
-/* parchment texture overlay (subtle) */
-.map-area::after{
-  content:"";
-  position:absolute;left:0;top:0;right:0;bottom:0;
-  background-image: url('assets/parchment-texture.png'); /* optional texture */
-  background-size: 600px;
-  opacity:0.08;
-  pointer-events:none;
-}
-
-/* panel with instructions */
-.panel{
-  position:absolute;left:22px;top:18px;background:rgba(255,249,241,0.96);padding:12px 14px;border-radius:10px;
-  border:1px solid rgba(0,0,0,0.05);box-shadow:0 8px 26px rgba(0,0,0,0.06);max-width:360px;
-}
-.panel h1{margin:0;font-family:Cinzel,serif;color:var(--wine);font-size:20px}
-.panel p{margin:8px 0 0;color:var(--muted);font-size:13px}
-
-/* hotspots (link style) */
-.hotspot{
-  position:absolute;transform:translate(-50%,-50%);cursor:pointer;text-align:center;
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  transition:transform .12s ease, filter .12s ease;
-}
-.hotspot:hover{transform:translate(-50%,-50%) scale(1.06); filter: drop-shadow(0 8px 16px rgba(0,0,0,0.18));}
-
-/* marker visual */
-.marker{
-  width:46px;height:46px;border-radius:50%;
-  background:linear-gradient(180deg,var(--wine),var(--accent));
-  border:3px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-family:Cinzel,serif;
-  box-shadow:0 10px 22px rgba(0,0,0,0.16);
-  font-size:18px;
-}
-
-/* label (parchment style) */
-.pin{
-  background:linear-gradient(180deg, #fff8f3, #f1e6db);
-  padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);
-  font-family:"Playfair Display", serif;font-size:13px;color:var(--ink);white-space:nowrap;
-  box-shadow:0 8px 20px rgba(0,0,0,0.06);
-}
-
-/* legend / controls bottom-right */
-.controls{
-  position:absolute;right:18px;bottom:18px;background:rgba(255,255,250,0.96);padding:10px;border-radius:12px;
-  border:1px solid rgba(0,0,0,0.04);box-shadow:0 12px 28px rgba(0,0,0,0.08);display:flex;gap:10px;align-items:center;
-}
-.ctrl-btn{
-  background:transparent;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-family:Cinzel,serif;color:var(--wine);font-weight:700;
-}
-.ctrl-btn.primary{background:var(--wine);color:white;border:0;box-shadow:0 10px 26px rgba(107,15,26,0.12)}
-
-/* audio button medieval */
-.audio-btn{
-  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:2px solid rgba(0,0,0,0.06);
-  background:linear-gradient(180deg,#fff8f3,#f6e8d9);font-family:Playfair Display;font-size:14px;color:var(--wine);
-}
-
-/* footer */
-.footer{margin-top:12px;text-align:center;color:var(--muted);font-size:13px}
-
-/* small screens */
-@media (max-width:880px){
-  .panel{left:12px;top:12px;max-width:260px}
-  .marker{width:40px;height:40px;font-size:16px}
-  .pin{font-size:12px;padding:6px 8px}
-  .map-area{min-height:320px}
-}
+  /* Footer */
+  footer { padding: 40px 20px; text-align:center; background:#111; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="header">
-    <div class="brand">
-      <div class="logo">M</div>
-      <div>
-        <h2 class="title">Surpresa</h2>
-        <p class="subtitle">Siga o mapa e encontre cada pista</p>
-      </div>
-    </div>
 
-    <div style="display:flex;gap:10px;align-items:center">
-      <a class="ctrl-btn" href="story.html">Nossa História</a>
-      <a class="ctrl-btn" href="gallery.html">Fotos</a>
-      <button class="ctrl-btn primary" id="openTreasure">Ir ao Tesouro</button>
-    </div>
-  </header>
+<!-- Hero -->
+<div class="hero">
+  <h1>2 Anos Juntos 💖</h1>
+  <button onclick="document.querySelector('#carousel').scrollIntoView({behavior:'smooth'})">Começar</button>
+  <audio id="bg-music" src="musica.mp3" loop></audio>
+  <button onclick="toggleMusic()" style="position:absolute; bottom:20px; right:20px; background:#ff0000; border:none; padding:10px; border-radius:5px;">🎵 Play/Pause</button>
+</div>
 
-  <main class="map-wrap">
-    <div class="map-area" id="mapArea" aria-hidden="false">
-      <div class="panel">
-        <h1>Mapa do Tesouro</h1>
-        <p>Clique nos selos para seguir a trilha — cada ponto abre um capítulo da nossa história.</p>
-      </div>
-
-      <!-- SVG map illustration (vector, scalable) -->
-      <svg viewBox="0 0 1200 675" style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
-        <!-- parchment border / burned edges -->
-        <defs>
-          <linearGradient id="g1" x1="0" x2="1">
-            <stop offset="0" stop-color="#fffaf2"/>
-            <stop offset="1" stop-color="#efe1cf"/>
-          </linearGradient>
-          <filter id="grain">
-            <feTurbulence baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="t"/>
-            <feColorMatrix in="t" type="saturate" values="0" result="g"/>
-            <feBlend in="SourceGraphic" in2="g" mode="multiply"/>
-          </filter>
-        </defs>
-
-        <!-- background parchment -->
-        <rect x="10" y="10" rx="18" ry="18" width="1180" height="655" fill="url(#g1)" stroke="#d8c4a8" stroke-width="3"/>
-        <!-- decorative map border -->
-        <path d="M30 35 Q80 10 160 28 T360 30 Q500 6 640 28 T1000 40 Q1100 80 1150 60" fill="none" stroke="#c9a44a" stroke-width="3" opacity="0.25"/>
-
-        <!-- mountain icons -->
-        <g fill="#6b0f1a" opacity="0.95">
-          <path d="M140 220 L180 150 L210 220 Z" fill="#38110e" />
-          <path d="M170 220 L210 150 L250 220 Z" fill="#6b0f1a" />
-          <path d="M860 140 L900 80 L940 140 Z" />
-          <path d="M920 140 L960 80 L1000 140 Z" />
-        </g>
-
-        <!-- decorative trees -->
-        <g fill="#2e4b2f" opacity="0.7">
-          <ellipse cx="320" cy="420" rx="22" ry="32" />
-          <ellipse cx="350" cy="420" rx="22" ry="32" />
-          <ellipse cx="330" cy="380" rx="18" ry="28" />
-        </g>
-
-        <!-- dotted path (the trail) -->
-        <path d="M120 320 C 200 300, 300 260, 420 300 S 650 360, 740 320 S 860 240, 980 280 S 1060 340, 1080 460" fill="none"
-              stroke="#7a1220" stroke-width="6" stroke-linecap="round" stroke-dasharray="18 12" opacity="0.95"/>
-
-        <!-- X (treasure) stylized -->
-        <g id="treasure" transform="translate(1060,460) rotate(8)">
-          <circle cx="0" cy="0" r="36" fill="#c9a44a" stroke="#4b2f1f" stroke-width="3" />
-          <text x="-12" y="6" font-family="Cinzel, serif" font-size="20" fill="#2b1a14" font-weight="700">X</text>
-        </g>
-
-        <!-- hotspots (invisible rects for pointer) - we overlay HTML hotspots later; these are just visual icons near them -->
-        <!-- Coffee (dispensa) icon -->
-        <g id="ico-coffee" transform="translate(200,300)">
-          <rect x="-34" y="-34" rx="8" ry="8" width="68" height="68" fill="#fff7f1" stroke="#d8c4a8"/>
-          <path d="M-10 0 h20 v10 a8 8 0 0 1 -20 0 z" fill="#6b0f1a" />
-          <path d="M8 -8 c6 -6 12 -2 10 4" stroke="#d8c4a8" stroke-width="2" fill="none"/>
-        </g>
-
-        <!-- bath icon -->
-        <g id="ico-bath" transform="translate(500,210)">
-          <rect x="-34" y="-34" rx="8" ry="8" width="68" height="68" fill="#fff7f1" stroke="#d8c4a8"/>
-          <path d="M-16 6 h32 v8 a6 6 0 0 1 -32 0 z" fill="#6b0f1a" />
-        </g>
-
-        <!-- guitar icon -->
-        <g id="ico-guitar" transform="translate(820,360)">
-          <rect x="-34" y="-34" rx="8" ry="8" width="68" height="68" fill="#fff7f1" stroke="#d8c4a8"/>
-          <circle cx="-6" cy="-2" r="10" fill="#6b0f1a"/>
-          <rect x="6" y="-28" width="6" height="36" rx="3" fill="#4b2f1f"/>
-        </g>
-
-        <!-- bed icon -->
-        <g id="ico-bed" transform="translate(420,460)">
-          <rect x="-34" y="-34" rx="8" ry="8" width="68" height="68" fill="#fff7f1" stroke="#d8c4a8"/>
-          <rect x="-22" y="-6" width="44" height="12" rx="4" fill="#6b0f1a"/>
-        </g>
-
-        <!-- pets icon -->
-        <g id="ico-pets" transform="translate(920,120)">
-          <rect x="-34" y="-34" rx="8" ry="8" width="68" height="68" fill="#fff7f1" stroke="#d8c4a8"/>
-          <ellipse cx="-6" cy="-4" rx="8" ry="6" fill="#6b0f1a"/>
-          <ellipse cx="10" cy="-4" rx="6" ry="4" fill="#4b2f1f"/>
-        </g>
-
-        <!-- labels/ornaments -->
-        <text x="70" y="80" font-family="Cinzel, serif" font-size="28" fill="#6b0f1a">Mapa do Nosso Tesouro</text>
-        <text x="70" y="110" font-family="Playfair Display, serif" font-size="14" fill="#4b2f1f">Siga as trilhas e descubra as pistas</text>
-
-      </svg>
-
-      <!-- HTML hotspots mapped on top of the SVG (absolute positions in %) -->
-      <!-- You can tweak the left/top % for perfect placement -->
-      <a class="hotspot" href="story.html" style="left:17%; top:45%;" title="Dispensa — Café">
-        <div class="marker">☕</div>
-        <div class="pin">Dispensa</div>
-      </a>
-
-      <a class="hotspot" href="gallery.html" style="left:42%; top:31%;" title="Banheiro — Cheiro">
-        <div class="marker">🛁</div>
-        <div class="pin">Banheiro</div>
-      </a>
-
-      <a class="hotspot" href="story.html" style="left:68%; top:54%;" title="Guitarra — Palheta">
-        <div class="marker">🎸</div>
-        <div class="pin">Guitarra</div>
-      </a>
-
-      <a class="hotspot" href="declaration.html" style="left:35%; top:70%;" title="Cama — Almofada">
-        <div class="marker">🛏️</div>
-        <div class="pin">Cama</div>
-      </a>
-
-      <a class="hotspot" href="gallery.html" style="left:86%; top:18%;" title="Pets — Coelho & Calopsita">
-        <div class="marker">🐰</div>
-        <div class="pin">Pets</div>
-      </a>
-
-      <a class="hotspot" href="surprise.html" style="left:89%; top:71%;" title="Tesouro">
-        <div class="marker">🎁</div>
-        <div class="pin">Tesouro</div>
-      </a>
-
-      <!-- controls (audio button and map legend) -->
-      <div class="controls" style="right:18px;bottom:18px">
-        <button class="audio-btn" id="musicBtn">🎼 Nossa trilha sonora</button>
-        <button class="ctrl-btn" onclick="location.href='index.html'">Mapa</button>
-      </div>
-    </div>
-  </main>
-
-  <div class="footer">
-    <small style="color:var(--muted)">Dica: clique nos selos do mapa para seguir a trilha — o X marca o tesouro.</small>
+<!-- Carrossel -->
+<div id="carousel" class="carousel">
+  <div class="carousel-images">
+    <img src="foto1.jpg" alt="Foto 1">
+    <img src="foto2.jpg" alt="Foto 2">
+    <img src="foto3.jpg" alt="Foto 3">
+  </div>
+  <div class="carousel-buttons">
+    <button onclick="prev()">‹</button>
+    <button onclick="next()">›</button>
   </div>
 </div>
 
-<!-- audio asset placeholder -->
-<audio id="track" preload="none">
-  <source src="assets/pictures-of-you.mp3" type="audio/mpeg">
-  Seu navegador não suporta áudio.
-</audio>
+<!-- Nossa História -->
+<section id="historia" class="fade-in">
+  <h2>Nossa História</h2>
+  <p>Aqui você pode contar como se conheceram, momentos especiais e tudo que marcou nosso amor nesses 2 anos.</p>
+</section>
+
+<!-- O que mais amo em você -->
+<section id="amo" class="fade-in">
+  <h2>O que mais amo em você</h2>
+  <p>Seu sorriso, seu jeito de me apoiar, nossa sintonia incrível... tudo isso me faz te amar cada vez mais!</p>
+</section>
+
+<!-- Nossos planos pro futuro -->
+<section id="planos" class="fade-in">
+  <h2>Nossos Planos pro Futuro</h2>
+  <p>Viajar juntos, construir nossa casa, ter aventuras inesquecíveis e continuar sempre lado a lado.</p>
+</section>
+
+<!-- Footer -->
+<footer class="fade-in">
+  💖 Feito com amor para você
+</footer>
 
 <script>
-/* Audio button (manual play) */
-const track = document.getElementById('track');
-const musicBtn = document.getElementById('musicBtn');
-let playing = false;
-musicBtn.addEventListener('click', async ()=>{
-  try{
-    if(!playing){
-      await track.play();
-      musicBtn.textContent = '⏸ Parar trilha';
-      playing = true;
-    } else {
-      track.pause();
-      musicBtn.textContent = '🎼 Nossa trilha sonora';
-      playing = false;
-    }
-  } catch(e){
-    alert('Seu navegador pode bloquear reproduções automáticas. Tente permitir o som manualmente.');
-  }
-});
+  // Fade-in on scroll
+  const faders = document.querySelectorAll('.fade-in');
+  window.addEventListener('scroll', () => {
+    faders.forEach(fader => {
+      const top = fader.getBoundingClientRect().top;
+      if(top < window.innerHeight - 50){
+        fader.classList.add('show');
+      }
+    });
+  });
 
-/* "Ir ao Tesouro" button goes to surprise */
-document.getElementById('openTreasure').addEventListener('click', ()=> location.href='surprise.html');
+  // Carrossel
+  const carouselImages = document.querySelector('.carousel-images');
+  const totalImages = carouselImages.children.length;
+  let index = 0;
+  function next(){
+    index = (index + 1) % totalImages;
+    carouselImages.style.transform = `translateX(-${index * 100}%)`;
+  }
+  function prev(){
+    index = (index - 1 + totalImages) % totalImages;
+    carouselImages.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  // Música
+  const music = document.getElementById('bg-music');
+  function toggleMusic(){
+    if(music.paused){ music.play(); }
+    else { music.pause(); }
+  }
 </script>
+
 </body>
 </html>
