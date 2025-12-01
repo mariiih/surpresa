@@ -1,45 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feliz 2 anos de namoro</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Surpresa</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Poppins', Arial, sans-serif; background:#0a0a0f; color:white; overflow-x:hidden; }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  body{background:#111;color:#fff;overflow-x:hidden;font-size:16px;}
 
-/* HERO */
-.hero { height:100vh; background:url('assets/bg-casal.jpg') center/cover no-repeat; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer; }
-.hero::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75)); backdrop-filter:blur(4px); }
-.hero h1 { font-size:3rem; z-index:2; font-weight:600; letter-spacing:1px; animation:fadeIn 2s ease; text-shadow:0 0 15px rgba(255,100,150,0.7); }
+  /* --- PARTICULAS --- */
+  #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 
-/* PARTICULAS */
-#particles { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; opacity:0.35; pointer-events:none; }
+  /* --- HERO --- */
+  .hero{
+    position:relative; z-index:1; height:100vh; display:flex; flex-direction:column;
+    justify-content:center; align-items:center; text-align:center; cursor:pointer;
+    transition: opacity 1s ease;
+  }
+  .hero img{
+    max-width:80%; border-radius:12px; border:5px solid #fff; box-shadow:0 5px 20px rgba(0,0,0,0.5);
+  }
+  .hero h1{font-size:3rem;margin-top:20px;text-shadow:2px 2px 5px #000;}
 
-/* SEÇÕES */
-section { padding:70px 20px; text-align:center; opacity:0; transform:translateY(30px); transition:0.8s ease; }
-section.visible { opacity:1; transform:translateY(0); }
+  /* --- SEÇÕES --- */
+  section{padding:70px 25px;text-align:center;position:relative; z-index:1; display:none;}
+  h2{font-size:2.3rem;margin-bottom:20px;color:#ff6a95;text-shadow:1px 1px 3px #000;}
+  p{font-size:1.3rem;line-height:1.7; max-width:600px; margin:0 auto;}
 
-h2 { font-size:2rem; margin-bottom:18px; color:#ff6fa8; text-shadow:0 0 10px rgba(255,120,150,0.4); }
+  /* --- CARROSSEL --- */
+  .carousel{width:90%; max-width:420px; margin:auto; overflow:hidden; border-radius:12px; border:4px solid #ff6a95; position:relative;}
+  .carousel-images{display:flex; transition: transform 1s ease-in-out;}
+  .carousel-images img{width:100%; object-fit:cover;}
+  .carousel-buttons{
+    position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);
+  }
+  .carousel-buttons button{
+    background: rgba(255,255,255,0.3); border:none; color:#ff6a95; font-size:2rem; padding:5px 10px; cursor:pointer;
+    border-radius:50%; transition:0.3s;
+  }
+  .carousel-buttons button:hover{background: rgba(255,255,255,0.6);}
+  
+  /* --- BOTÃO SURPRESA --- */
+  #final-btn{
+    background: #ff2d55; border:none; padding:18px 40px; border-radius:40px;
+    font-size:1.5rem; cursor:pointer; transition:.3s; color:white;
+  }
+  #final-btn:hover{transform:scale(1.08); background:#ff4770;}
+  #confetti-message{
+    display:none; font-size:1.8rem; margin-top:20px; color:#ff6a95; font-weight:bold;
+  }
 
-/* CARROSSEL POLAROID */
-.carousel { width:95%; max-width:360px; margin:auto; position:relative; overflow:hidden; border-radius:16px; box-shadow:0 0 25px rgba(255,100,150,0.35); background:#1b1b22; padding-bottom:20px; }
-.carousel-item { display:none; text-align:center; }
-.carousel-item.active { display:block; animation:fadeIn 1.5s ease; }
-.carousel-item img { width:100%; border-radius:16px; }
-.caption { margin-top:10px; font-size:1rem; color:#ffd4e6; padding:0 8px 10px; }
-
-/* BOTÕES */
-button { margin-top:20px; padding:14px 24px; background:linear-gradient(135deg,#ff2e74,#ff7ac0); color:white; border:none; border-radius:14px; font-size:1.2rem; cursor:pointer; transition:transform 0.1s, box-shadow 0.3s; box-shadow:0 0 15px rgba(255,80,140,0.4); }
-button:active { transform:scale(0.94); }
-
-/* CORAÇÃO PULSANDO */
-.heart { font-size:3.4rem; animation:pulse 1.4s infinite ease-in-out; color:#ff73a5; text-shadow:0 0 15px rgba(255,100,150,0.7); }
-
-/* ANIMAÇÕES */
-@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-@keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.25);} 100%{transform:scale(1);} }
+  /* --- RESPONSIVIDADE --- */
+  @media (max-width:600px){
+    .hero h1{font-size:2.2rem;}
+    h2{font-size:2rem;}
+    p{font-size:1.45rem;}
+    #final-btn{font-size:1.3rem;}
+  }
 </style>
 </head>
 <body>
@@ -48,140 +65,124 @@ button:active { transform:scale(0.94); }
 <canvas id="particles"></canvas>
 
 <!-- HERO -->
-<div class="hero" id="hero">
-  <h1>Feliz 2 anos de namoro, meu amor ❤️</h1>
+<div class="hero" id="hero" onclick="startSite()">
+  <img src="assets/feliz2anos.jpg" alt="Feliz 2 anos">
+  <h1>Feliz 2 anos de namoro 💗</h1>
 </div>
 
-<audio id="bg-music" src="assets/pictures-of-you.mp3" preload="auto"></audio>
+<audio id="music" src="assets/pictures-of-you.mp3"></audio>
 
-<!-- Nossa História -->
+<!-- NOSSA HISTÓRIA -->
 <section id="historia">
   <h2>Nossa História</h2>
-  <p>Momentos incríveis juntos, aventuras, descobertas, carinho e tudo o que nos trouxe até aqui.</p>
+  <p>Aqui vai o texto que você vai escrever depois 🥰</p>
 </section>
 
-<!-- Carrossel Nossos Momentos -->
+<!-- NOSSOS MOMENTOS -->
 <section id="momentos">
   <h2>Nossos Momentos</h2>
-  <div class="carousel" id="carousel">
-    <div class="carousel-item active"><img src="assets/janeiro.jpg" alt="Janeiro"><div class="caption">12/Janeiro - Casa do Rock Bar<br>Um dos primeiros shows de retorno do Rainhas de Marte, e eu sempre te acompanhando!</div></div>
-    <div class="carousel-item"><img src="assets/fevereiro.jpg" alt="Fevereiro"><div class="caption">28/Fevereiro - Madame<br>Fato curioso: Foi um dos dias que você deu PT e deu origem àquele vídeo de você morrendo no metro e dormindo sentado hahaha</div></div>
-    <div class="carousel-item"><img src="assets/março.jpg" alt="Março"><div class="caption">15/Março - Simply Red (Allianz)<br>Fizemos muitas coisas em março, mas viver esse show ao seu lado foi incrível. Muito amor e risadas.</div></div>
-    <div class="carousel-item"><img src="assets/abril.jpg" alt="Abril"><div class="caption">11/Abril - Skylab<br>Não tinha como deixar de fora né? E esse dia foi muito gostoso!</div></div>
-    <div class="carousel-item"><img src="assets/maio.jpg" alt="Maio"><div class="caption">14/Maio - System of a Down<br>Inesquecível tudo o que vivemos naquele show. Ter você ao meu lado deixa tudo mais especial.</div></div>
-    <div class="carousel-item"><img src="assets/junho.jpg" alt="Junho"><div class="caption">14/Junho - Alice Cooper + Madame<br>Nós aproveitamos muito esse dia, foi muito bom fazer essa loucura.</div></div>
-    <div class="carousel-item"><img src="assets/julho.jpg" alt="Julho"><div class="caption">26/Julho - Na minha casa<br>Escolhi essa porque amo nossos momentos de bobeira e caretas.</div></div>
-    <div class="carousel-item"><img src="assets/agosto.jpg" alt="Agosto"><div class="caption">09/Agosto - Na sua mãe<br>Uma das nossas várias fotos no elevador. Me lembra coisas boas.</div></div>
-    <div class="carousel-item"><img src="assets/setembro.jpg" alt="Setembro"><div class="caption">07/Setembro - The Town<br>Muito pouco felizes após o show do Iggy Pop. Que dia.</div></div>
-    <div class="carousel-item"><img src="assets/outubro.jpg" alt="Outubro"><div class="caption">31/10 - Após o show do Michale Graves<br>Amo essa foto. Sua cara de maníaco está A+.</div></div>
-    <div class="carousel-item"><img src="assets/novembro.jpg" alt="Novembro"><div class="caption">15/Novembro - Molchat Doma<br>A gente vira adolescente e faz loucuras. Cada uma vale a pena só por ser contigo.</div></div>
+  <div class="carousel">
+    <div class="carousel-images">
+      <img src="assets/foto1.jpg" alt="Momento 1">
+      <img src="assets/foto2.jpg" alt="Momento 2">
+      <img src="assets/foto3.jpg" alt="Momento 3">
+    </div>
+    <div class="carousel-buttons">
+      <button onclick="prevSlide()">‹</button>
+      <button onclick="nextSlide()">›</button>
+    </div>
   </div>
 </section>
 
-<!-- Declaração da Mari -->
+<!-- DECLARAÇÃO -->
 <section id="declaracao">
   <h2>Declaração da Mari</h2>
-  <p>Dois anos ao seu lado parecem um sonho que não acaba. Cada dia, cada momento, cada detalhe...</p>
+  <p>Você vai escrever sua carta aqui depois 💌</p>
 </section>
 
-<!-- Tudo que amo em você -->
-<section id="amor">
+<!-- TUDO QUE AMO -->
+<section id="amo">
   <h2>Tudo que eu amo em você</h2>
-  <p>Seu sorriso.</p>
-  <p>Seu jeito bobo.</p>
-  <p>Seu abraço.</p>
+  <p>Você vai colocar as frases, lista de coisas e talvez fotos.</p>
 </section>
 
-<!-- Botão surpresa -->
+<!-- SURPRESA FINAL -->
 <section id="surpresa">
-  <button id="btnSurpresa">Clique aqui</button>
+  <h2>Surpresa Final</h2>
+  <button id="final-btn" onclick="triggerConfetti()">Clique aqui</button>
+  <p id="confetti-message">Diga as palavras certas para retirar seu tesouro! 🎁</p>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-// HERO clique → some + música
-const hero = document.getElementById('hero');
-const music = document.getElementById('bg-music');
-hero.addEventListener('click', ()=>{
-  hero.style.display='none';
-  music.play().catch(()=>{});
-  document.querySelectorAll('section').forEach(s=>s.classList.add('visible'));
-});
-
-// CARROSSEL DEVAGAR
-let index=0;
-const items=document.querySelectorAll('.carousel-item');
-setInterval(()=>{
-  items[index].classList.remove('active');
-  index=(index+1)%items.length;
-  items[index].classList.add('active');
-},4000);
-
-// BOTÃO SURPRESA + CONFETE
-const btn=document.getElementById('btnSurpresa');
-btn.addEventListener('click',()=>{
-  confetti();
-  alert('Diga as palavras certas para retirar seu tesouro!');
-});
-
-// CONFETE (simples e colorido)
-function confetti(){
-  const colors=['#ff2e74','#ff7ac0','#ffd4e6','#ffb3c1'];
-  for(let i=0;i<150;i++){
-    const c=document.createElement('div');
-    c.style.position='fixed';
-    c.style.width='8px';
-    c.style.height='8px';
-    c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    c.style.left=Math.random()*window.innerWidth+'px';
-    c.style.top='-10px';
-    c.style.opacity=Math.random();
-    c.style.borderRadius='50%';
-    c.style.zIndex='9999';
-    c.style.pointerEvents='none';
-    document.body.appendChild(c);
-    let t=Math.random()*3000+2000;
-    let start=0;
-    const fall=setInterval(()=>{
-      start+=5;
-      c.style.top=start+'px';
-      if(start>window.innerHeight){ clearInterval(fall); c.remove(); }
-    },10);
+  // FADE HERO
+  function startSite(){
+    const hero = document.getElementById("hero");
+    hero.style.opacity = 0;
+    setTimeout(()=>{
+      hero.style.display="none";
+      // mostrar seções
+      document.getElementById("historia").style.display="block";
+      document.getElementById("momentos").style.display="block";
+      document.getElementById("declaracao").style.display="block";
+      document.getElementById("amo").style.display="block";
+      document.getElementById("surpresa").style.display="block";
+      // tocar música
+      const music = document.getElementById("music");
+      music.volume=0.7;
+      music.play().catch(()=>{});
+    },1000);
   }
-}
 
-// PARTICULAS FLUTUANTES
-const canvas=document.getElementById('particles');
-const ctx=canvas.getContext('2d');
-canvas.width=innerWidth; canvas.height=innerHeight;
-const parts=[];
-for(let i=0;i<70;i++){
-  parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.6,dy:(Math.random()-0.5)*0.6});
-}
-function anim(){
-  requestAnimationFrame(anim);
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  parts.forEach(p=>{
-    ctx.globalAlpha=0.25;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle='white';
-    ctx.fill();
-    p.x+=p.dx; p.y+=p.dy;
-    if(p.x<0||p.x>innerWidth)p.dx*=-1;
-    if(p.y<0||p.y>innerHeight)p.dy*=-1;
-  });
-}
-anim();
+  // PARTICULAS ROSA
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+  let w=canvas.width=window.innerWidth;
+  let h=canvas.height=window.innerHeight;
+  window.addEventListener('resize',()=>{w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight;});
+  const particles=[];
+  for(let i=0;i<150;i++){
+    particles.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*4+2, dx:(Math.random()-0.5)*1.2, dy:(Math.random()-0.5)*1.2});
+  }
+  function animate(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x+=p.dx; p.y+=p.dy;
+      if(p.x<0||p.x>w)p.dx*=-1;
+      if(p.y<0||p.y>h)p.dy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,100,180,0.7)';
+      ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
 
-// FADE ao rolar seções
-const sections=document.querySelectorAll('section');
-window.addEventListener('scroll',()=>{
-  sections.forEach(s=>{
-    const top=s.getBoundingClientRect().top;
-    if(top<window.innerHeight-100)s.classList.add('visible');
-  });
-});
+  // CARROSSEL
+  const carousel = document.querySelector('.carousel-images');
+  const total = carousel.children.length;
+  let index=0;
+  let slideInterval = setInterval(nextSlide,5000);
+  function nextSlide(){
+    index=(index+1)%total;
+    carousel.style.transform=`translateX(-${index*100}%)`;
+  }
+  function prevSlide(){
+    index=(index-1+total)%total;
+    carousel.style.transform=`translateX(-${index*100}%)`;
+    resetInterval();
+  }
+  function resetInterval(){
+    clearInterval(slideInterval);
+    slideInterval = setInterval(nextSlide,5000);
+  }
+
+  // CONFETE
+  function triggerConfetti(){
+    confetti({particleCount:200, spread:160, origin:{y:0.6}});
+    document.getElementById("confetti-message").style.display="block";
+  }
 </script>
-
 </body>
 </html>
