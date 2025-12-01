@@ -1,182 +1,208 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feliz 2 anos de namoro</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Surpresa</title>
+
+<style>
     body {
-      font-family: 'Poppins', Arial, sans-serif;
-      background: #0a0a0f;
-      color: white;
-      overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background: #0a0a0a;
+        color: white;
+        overflow-x: hidden;
     }
 
-    /* --- HERO (somente aqui a foto bg-casal.jpg aparece) --- */
-    .hero {
-      height: 100vh;
-      background: url('assets/bg-casal.jpg') center/cover no-repeat;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75));
-      backdrop-filter: blur(4px);
-    }
-    .hero h1 {
-      font-size: 3rem;
-      z-index: 2;
-      font-weight: 600;
-      letter-spacing: 1px;
-      animation: fadeIn 2s ease;
-      text-shadow: 0 0 15px rgba(255,100,150,0.7);
+    /* --- HERO (primeira tela) --- */
+    #hero {
+        height: 100vh;
+        background: linear-gradient(135deg, #ff2d55, #ff6a95);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        cursor: pointer;
+        transition: opacity .8s ease;
     }
 
-    /* --- PARTICULAS COLORIDAS --- */
-    #particles {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: -1;
-      opacity: 0.45;
-      pointer-events: none;
+    #hero h1 {
+        font-size: 2.8rem;
+        max-width: 80%;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.04); }
     }
 
     /* --- SEÇÕES --- */
     section {
-      padding: 70px 28px;
-      text-align: center;
-      animation: fadeInUp 1.3s ease;
+        padding: 70px 25px;
+        text-align: center;
     }
 
     h2 {
-      font-size: 2rem;
-      margin-bottom: 18px;
-      color: #ff6fa8;
-      text-shadow: 0 0 10px rgba(255,120,150,0.4);
+        font-size: 2.3rem;
+        margin-bottom: 25px;
+        color: #ff6a95;
     }
 
-    /* CARROSSEL POLAROID MAIS BONITO */
+    p {
+        font-size: 1.3rem;
+        line-height: 1.7;
+    }
+
+    /* --- CARROSSEL --- */
     .carousel {
-      width: 95%; max-width: 360px;
-      margin: auto;
-      position: relative;
-      overflow: hidden;
-      border-radius: 16px;
-      box-shadow: 0 0 25px rgba(255,100,150,0.35);
-      background: #1b1b22;
-      padding-bottom: 10px;
-    }
-    .carousel img {
-      width: 100%;
-      display: none;
-      border-radius: 16px;
-      transition: opacity 1.5s ease;
-    }
-    .carousel img.active { display: block; opacity: 1; }
-
-    .caption {
-      margin-top: 10px;
-      font-size: 1rem;
-      color: #ffd4e6;
-      padding: 0 8px 10px;
+        width: 90%;
+        max-width: 420px;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 12px;
+        border: 4px solid #ff6a95;
     }
 
-    /* Botões com vibração */
-    button {
-      margin-top: 20px;
-      padding: 14px 24px;
-      background: linear-gradient(135deg, #ff2e74, #ff7ac0);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: transform 0.1s, box-shadow 0.3s;
-      box-shadow: 0 0 15px rgba(255,80,140,0.4);
-    }
-    button:active { transform: scale(0.94); }
-
-    /* Coração pulsando */
-    .heart {
-      font-size: 3.4rem;
-      animation: pulse 1.4s infinite ease-in-out;
-      color: #ff73a5;
-      text-shadow: 0 0 15px rgba(255,100,150,0.7);
+    .carousel-images {
+        display: flex;
+        width: 100%;
+        animation: slide 12s infinite;
     }
 
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
-    @keyframes pulse { 0%{ transform: scale(1);} 50%{ transform: scale(1.25);} 100%{ transform: scale(1);} }
-  </style>
+    .carousel-images img {
+        width: 100%;
+        object-fit: cover;
+    }
+
+    @keyframes slide {
+        0% { transform: translateX(0); }
+        33% { transform: translateX(-100%); }
+        66% { transform: translateX(-200%); }
+        100% { transform: translateX(0); }
+    }
+
+    /* --- BOTÃO SURPRESA --- */
+    #final-btn {
+        background: #ff2d55;
+        border: none;
+        padding: 18px 40px;
+        border-radius: 40px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: .3s;
+        color: white;
+    }
+
+    #final-btn:hover {
+        transform: scale(1.08);
+        background: #ff4770;
+    }
+
+    /* --- CONFETTI --- */
+    #confetti-message {
+        display: none;
+        font-size: 1.8rem;
+        margin-top: 20px;
+        color: #ff6a95;
+        font-weight: bold;
+    }
+
+    /* --- RESPONSIVIDADE --- */
+    @media (max-width: 600px) {
+        #hero h1 { font-size: 2.2rem; }
+        h2 { font-size: 2rem; }
+        p { font-size: 1.45rem; }
+        #final-btn { font-size: 1.3rem; }
+    }
+</style>
 </head>
+
 <body>
 
-  <!-- Partículas -->
-  <canvas id="particles"></canvas>
+<!-- ================= HERO ================= -->
+<div id="hero" onclick="startSite()">
+    <h1>Feliz 2 anos de namoro 💗</h1>
+</div>
 
-  <!-- HERO com a foto -->
-  <div class="hero">
-    <h1>Feliz 2 anos de namoro, meu amor ❤️</h1>
-  </div>
+<!-- Música -->
+<audio id="music" src="pictures-of-you.mp3"></audio>
 
-  <!-- Seção Eu amo isso em você -->
-  <section>
-    <h2>O que eu mais amo em você 💕</h2>
-    <div class="carousel" id="carousel">
-      <img src="assets/janeiro.jpg" class="active" alt="Janeiro">
-      <img src="assets/fevereiro.jpg" alt="Fevereiro">
-      <img src="assets/março.jpg" alt="Março">
-      <img src="assets/abril.jpg" alt="Abril">
-      <img src="assets/maio.jpg" alt="Maio">
-      <img src="assets/junho.jpg" alt="Junho">
-      <img src="assets/julho.jpg" alt="Julho">
-      <img src="assets/agosto.jpg" alt="Agosto">
-      <img src="assets/setembro.jpg" alt="Setembro">
-      <img src="assets/outubro.jpg" alt="Outubro">
-      <img src="assets/novembro.jpg" alt="Novembro">
+<!-- ================= NOSSA HISTÓRIA ================= -->
+<section id="historia" style="display:none;">
+    <h2>Nossa História</h2>
+    <p>Aqui vai o texto que você vai escrever depois 🥰</p>
+</section>
+
+<!-- ================= CARROSSEL ================= -->
+<section id="momentos" style="display:none;">
+    <h2>Nossos Momentos</h2>
+
+    <div class="carousel">
+        <div class="carousel-images">
+            <img src="foto1.jpg" alt="">
+            <img src="foto2.jpg" alt="">
+            <img src="foto3.jpg" alt="">
+        </div>
     </div>
-  </section>
+</section>
 
-  <!-- Final com coração e easter egg -->
-  <section>
-    <p>Com todo meu amor...</p>
-    <div class="heart">❤️</div>
-    <p style="margin-top:16px; opacity:0.5; font-size:0.8rem; cursor:pointer;" onclick="easterEgg()">(não clique aqui)</p>
-  </section>
+<!-- ================= DECLARAÇÃO ================= -->
+<section id="declaracao" style="display:none;">
+    <h2>Declaração da Mari</h2>
+    <p>Você vai escrever sua carta aqui depois 💌</p>
+</section>
 
-  <script>
-    /* --- CARROSSEL DEVAGAR COM FADE --- */
-    let index = 0;
-    const imgs = document.querySelectorAll('#carousel img');
-    setInterval(() => {
-      imgs[index].classList.remove('active');
-      index = (index + 1) % imgs.length;
-      imgs[index].classList.add('active');
-    }, 3200);
+<!-- ================= O QUE AMO EM VOCÊ ================= -->
+<section id="amo" style="display:none;">
+    <h2>Tudo que eu amo em você</h2>
+    <p>Você vai colocar as frases, lista de coisas e talvez fotos.</p>
+</section>
 
-    /* --- EASTER EGG --- */
-    function easterEgg(){ alert('Eu te amo mais do que você imagina ❤️'); }
+<!-- ================= FINAL: BOTÃO SURPRESA ================= -->
+<section id="surpresa" style="display:none;">
+    <h2>Surpresa Final</h2>
 
-    /* --- PARTICULAS MODERNAS --- */
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-    const parts = [];
-    for(let i=0;i<70;i++){ parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.6,dy:(Math.random()-0.5)*0.6}); }
-    function anim(){ requestAnimationFrame(anim); ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='white'; parts.forEach(p=>{ ctx.globalAlpha = 0.25; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); p.x+=p.dx; p.y+=p.dy; if(p.x<0||p.x>innerWidth)p.dx*=-1; if(p.y<0||p.y>innerHeight)p.dy*=-1; }); }
-    anim();
-  </script>
+    <button id="final-btn" onclick="triggerConfetti()">
+        Clique aqui
+    </button>
+
+    <p id="confetti-message">Diga as palavras certas para retirar seu tesouro! 🎁</p>
+</section>
+
+<script>
+    function startSite() {
+        // some hero
+        document.getElementById("hero").style.opacity = "0";
+
+        setTimeout(() => {
+            document.getElementById("hero").style.display = "none";
+
+            document.getElementById("historia").style.display = "block";
+            document.getElementById("momentos").style.display = "block";
+            document.getElementById("declaracao").style.display = "block";
+            document.getElementById("amo").style.display = "block";
+            document.getElementById("surpresa").style.display = "block";
+
+            // toca música
+            let music = document.getElementById("music");
+            music.volume = 0.7;
+            music.play().catch(() => {});
+        }, 700);
+    }
+
+    function triggerConfetti() {
+        confetti({ particleCount: 200, spread: 120 });
+        document.getElementById("confetti-message").style.display = "block";
+    }
+
+    // confetti CDN
+    let script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+    document.body.appendChild(script);
+</script>
 
 </body>
 </html>
