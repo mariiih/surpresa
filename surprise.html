@@ -2,25 +2,26 @@
 <html lang="pt-BR">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Surpresa — Tesouro</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Inter;background:linear-gradient(180deg,#fff7f4,#fdeeea);color:#222}
+body{margin:0;font-family:Playfair Display,serif;background:linear-gradient(180deg,#efe7dc,#f6efe8);color:#221a17}
 .wrap{max-width:720px;margin:48px auto;padding:18px;text-align:center}
-h1{font-family:Playfair Display;font-size:28px}
-.btn{background:#b93a3a;color:#fff;padding:14px 20px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
-.note{color:#6b6b6b;margin-top:12px}
+h1{font-family:Cinzel,serif;color:#6b0f1a}
+.btn{background:linear-gradient(180deg,#6b0f1a,#4b0d14);color:#fff;padding:14px 20px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
+.note{color:#6b5950;margin-top:12px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Você encontrou o tesouro!</h1>
-  <p class="note">Aperte o botão quando eu estiver com a caixa em mãos.</p>
+  <h1>O Tesouro Está Aqui</h1>
+  <p class="note">Clique quando eu estiver com a caixa em mãos.</p>
 
   <button class="btn" id="reveal">Clique para confirmar</button>
 
-  <p id="msg" style="margin-top:18px;color:#6b6b6b"></p>
-</div>
+  <p id="msg" style="margin-top:18px;color:#6b5950"></p>
 
+  <div style="margin-top:22px"><button onclick="location.href='index.html'">← Voltar ao mapa</button></div>
+</div>
 <script>
 document.getElementById('reveal').addEventListener('click', ()=>{
   document.getElementById('msg').textContent = 'Perfeito — agora me passa a caixa e me dá um beijo.';
