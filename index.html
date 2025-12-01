@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Surpresa</title>
+
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Arial',sans-serif; scroll-behavior:smooth; }
   body { background:#111; color:#fff; overflow-x:hidden; font-size:16px; }
@@ -32,7 +33,7 @@
   .surprise-btn { padding:15px 30px; background:#fff; color:#ff0055; border:none; border-radius:12px; font-size:1.3rem; cursor:pointer; transition:0.3s; margin-top:30px; box-shadow:0 5px 15px rgba(255,0,85,0.5); }
   .surprise-btn:hover { background:#ff0055; color:#fff; transform: scale(1.1); box-shadow:0 5px 20px rgba(255,0,85,1); }
 
-  /* Popup surpresa */
+  /* Popup */
   #popup { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#222; padding:30px; border-radius:15px; box-shadow:0 5px 30px rgba(255,0,85,0.7); z-index:10; text-align:center; }
   #popup button { margin-top:20px; padding:10px 20px; background:#ff0055; color:#fff; border:none; border-radius:8px; cursor:pointer; transition:0.3s; }
   #popup button:hover { background:#fff; color:#ff0055; }
@@ -43,7 +44,7 @@
 
   footer { padding:40px 20px; text-align:center; background:#222; position:relative; z-index:1; }
 
-  /* Ajustes responsivos para celular */
+  /* Ajustes para celular */
   @media (max-width: 600px) {
     body { font-size: 18px; }
     .hero h1 { font-size: 2.5rem; }
@@ -62,10 +63,18 @@
 
 <!-- Hero -->
 <div class="hero fade-in">
-  <h1>Bem-vindo à Nossa História 💖</h1>
-  <button onclick="document.querySelector('#carousel').scrollIntoView({behavior:'smooth'})">Começar a aventura</button>
-  <audio id="bg-music" src="music.mp3" loop autoplay></audio>
-  <button onclick="toggleMusic()" style="position:absolute; bottom:20px; right:20px; background:#fff; color:#ff0055; border:none; padding:10px; border-radius:5px;">🎵 Play/Pause</button>
+  <h1>Bem-vindo à Nossa História</h1>
+
+  <button onclick="document.querySelector('#carousel').scrollIntoView({behavior:'smooth'})">
+    Começar a aventura
+  </button>
+
+  <!-- Música (The Cure - Pictures of You) -->
+  <audio id="bg-music" src="assets/pictures-of-you.mp3" loop autoplay></audio>
+
+  <button onclick="toggleMusic()" style="position:absolute; bottom:20px; right:20px; background:#fff; color:#ff0055; border:none; padding:10px; border-radius:5px;">
+    Play/Pause
+  </button>
 </div>
 
 <!-- Carrossel -->
@@ -90,7 +99,7 @@
   <p>Seu jeito palhaço, amoroso e determinado que me conquista todos os dias.</p>
 </section>
 
-<!-- Carta/Declaração -->
+<!-- Carta -->
 <section class="fade-in">
   <h2>Minha Carta</h2>
   <p>Aqui você pode escrever sua declaração de amor, lembranças e tudo que sente pelo Bizo.</p>
@@ -98,27 +107,27 @@
 
 <!-- Botão surpresa -->
 <section class="fade-in">
-  <button class="surprise-btn" onclick="openPopup()">Clique aqui para seu presente 🎁</button>
+  <button class="surprise-btn" onclick="openPopup()">Clique aqui para seu presente</button>
 </section>
 
 <!-- Popup -->
 <div id="popup">
-  <h2>Surpresa! 🎁</h2>
+  <h2>Surpresa!</h2>
   <p>Prepare-se para receber seu presente especial!</p>
   <button onclick="closePopup()">Fechar</button>
 </div>
 
 <footer class="fade-in">
-  💖 Feito com amor
+  Feito com amor
 </footer>
 
 <script>
-  // Fade-in on scroll
+  // Fade-in
   const faders = document.querySelectorAll('.fade-in');
   window.addEventListener('scroll', () => {
     faders.forEach(fader => {
       const top = fader.getBoundingClientRect().top;
-      if(top < window.innerHeight - 50){
+      if (top < window.innerHeight - 50) {
         fader.classList.add('show');
       }
     });
@@ -135,39 +144,59 @@
 
   // Música
   const music = document.getElementById('bg-music');
-  function toggleMusic(){ if(music.paused){ music.play(); } else { music.pause(); } }
+  function toggleMusic() {
+    if (music.paused) {
+      music.play();
+    } else {
+      music.pause();
+    }
+  }
 
-  // Partículas/corações simples
+  // Partículas
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
   let w = canvas.width = window.innerWidth;
   let h = canvas.height = window.innerHeight;
-  window.addEventListener('resize',()=>{w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight;});
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
 
   const particles = [];
-  for(let i=0;i<100;i++){ 
-    particles.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*6+2, dx:(Math.random()-0.5)*2, dy:(Math.random()-0.5)*2}); 
+  for (let i = 0; i < 100; i++) {
+    particles.push({ 
+      x: Math.random() * w, 
+      y: Math.random() * h, 
+      r: Math.random() * 6 + 2, 
+      dx: (Math.random() - 0.5) * 2, 
+      dy: (Math.random() - 0.5) * 2 
+    });
   }
 
-  function animate(){
-    ctx.clearRect(0,0,w,h);
-    particles.forEach(p=>{
-      p.x+=p.dx; p.y+=p.dy;
-      if(p.x<0||p.x>w)p.dx*=-1;
-      if(p.y<0||p.y>h)p.dy*=-1;
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0 || p.x > w) p.dx *= -1;
+      if (p.y < 0 || p.y > h) p.dy *= -1;
+
       ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(255,0,85,0.7)';
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,0,85,0.7)';
       ctx.fill();
     });
     requestAnimationFrame(animate);
   }
   animate();
 
-  // Botão surpresa popup
-  const popup = document.getElementById('popup');
-  function openPopup(){ popup.style.display='block'; }
-  function closePopup(){ popup.style.display='none'; }
+  // Popup
+  function openPopup() {
+    popup.style.display = 'block';
+  }
+  function closePopup() {
+    popup.style.display = 'none';
+  }
 </script>
 
 </body>
