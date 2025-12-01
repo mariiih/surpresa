@@ -24,7 +24,7 @@ section.visible { opacity:1; transform:translateY(0); }
 h2 { font-size:2rem; margin-bottom:18px; color:#ff6fa8; text-shadow:0 0 10px rgba(255,120,150,0.4); }
 
 /* CARROSSEL POLAROID */
-.carousel { width:95%; max-width:360px; margin:auto; position:relative; overflow:hidden; border-radius:16px; box-shadow:0 0 25px rgba(255,100,150,0.35); background:#1b1b22; padding-bottom:20px; }
+.carousel { width:95%; max-width:360px; margin:auto; position:relative; overflow:hidden; border-radius:16px; box-shadow:0 0 25px rgba(255,100,150,0.35); background:#1b1b22; padding-bottom:20px; user-select:none; }
 .carousel-item { display:none; text-align:center; }
 .carousel-item.active { display:block; animation:fadeIn 1.5s ease; }
 .carousel-item img { width:100%; border-radius:16px; }
@@ -34,17 +34,11 @@ h2 { font-size:2rem; margin-bottom:18px; color:#ff6fa8; text-shadow:0 0 10px rgb
 button { margin-top:20px; padding:14px 24px; background:linear-gradient(135deg,#ff2e74,#ff7ac0); color:white; border:none; border-radius:14px; font-size:1.2rem; cursor:pointer; transition:transform 0.1s, box-shadow 0.3s; box-shadow:0 0 15px rgba(255,80,140,0.4); }
 button:active { transform:scale(0.94); }
 
+/* MENSAGEM SURPRESA */
+#mensagem { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:linear-gradient(135deg,#ff2e74,#ff7ac0); color:white; padding:20px 28px; border-radius:18px; font-size:1.3rem; text-align:center; box-shadow:0 0 25px rgba(255,100,150,0.6); z-index:9999; }
+
 /* CORAÇÃO PULSANDO */
 .heart { font-size:3.4rem; animation:pulse 1.4s infinite ease-in-out; color:#ff73a5; text-shadow:0 0 15px rgba(255,100,150,0.7); }
-
-/* MENSAGEM SURPRESA */
-#mensagemSurpresa {
-  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-  background:linear-gradient(135deg,#ff2e74,#ff7ac0);
-  color:white; padding:20px 28px; border-radius:18px; font-size:1.3rem; text-align:center;
-  box-shadow:0 0 25px rgba(255,100,150,0.5); opacity:0; transition:opacity 0.8s ease;
-  z-index:9999;
-}
 
 /* ANIMAÇÕES */
 @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
@@ -77,17 +71,13 @@ button:active { transform:scale(0.94); }
     <div class="carousel-item"><img src="assets/fevereiro.jpg" alt="Fevereiro"><div class="caption">28/Fevereiro - Madame<br>Fato curioso: Foi um dos dias que você deu PT e deu origem àquele vídeo de você morrendo no metro e dormindo sentado hahaha</div></div>
     <div class="carousel-item"><img src="assets/março.jpg" alt="Março"><div class="caption">15/Março - Simply Red (Allianz)<br>Fizemos muitas coisas em março, mas viver esse show ao seu lado foi incrível. Muito amor e risadas.</div></div>
     <div class="carousel-item"><img src="assets/abril.jpg" alt="Abril"><div class="caption">11/Abril - Skylab<br>Não tinha como deixar de fora né? E esse dia foi muito gostoso!</div></div>
-    <div class="carousel-item"><img src="assets/maio.jpg" alt="Maio"><div class="caption">14/Maio - System of a Down<br>Inesquecível tudo o que vivemos naquele show. Ter você ao meu lado deixa tudo mais especial.</div></div>
+    <div class="carousel-item"><img src="assets/maio.jpg" alt="Maio"><div class="caption">14/Maio - System of a Down<br>Inesquecível tudo o que vivemos naquele show. Ter você ao lado deixa tudo mais especial.</div></div>
     <div class="carousel-item"><img src="assets/junho.jpg" alt="Junho"><div class="caption">14/Junho - Alice Cooper + Madame<br>Nós aproveitamos muito esse dia, foi muito bom fazer essa loucura.</div></div>
     <div class="carousel-item"><img src="assets/julho.jpg" alt="Julho"><div class="caption">26/Julho - Na minha casa<br>Escolhi essa porque amo nossos momentos de bobeira e caretas.</div></div>
     <div class="carousel-item"><img src="assets/agosto.jpg" alt="Agosto"><div class="caption">09/Agosto - Na sua mãe<br>Uma das nossas várias fotos no elevador. Me lembra coisas boas.</div></div>
     <div class="carousel-item"><img src="assets/setembro.jpg" alt="Setembro"><div class="caption">07/Setembro - The Town<br>Muito pouco felizes após o show do Iggy Pop. Que dia.</div></div>
     <div class="carousel-item"><img src="assets/outubro.jpg" alt="Outubro"><div class="caption">31/10 - Após o show do Michale Graves<br>Amo essa foto. Sua cara de maníaco está A+.</div></div>
     <div class="carousel-item"><img src="assets/novembro.jpg" alt="Novembro"><div class="caption">15/Novembro - Molchat Doma<br>A gente vira adolescente e faz loucuras. Cada uma vale a pena só por ser contigo.</div></div>
-  </div>
-  <div style="margin-top:12px;">
-    <button id="prevBtn">⬅️</button>
-    <button id="nextBtn">➡️</button>
   </div>
 </section>
 
@@ -111,7 +101,7 @@ button:active { transform:scale(0.94); }
 </section>
 
 <!-- Mensagem surpresa -->
-<div id="mensagemSurpresa">Diga as palavras certas para retirar seu tesouro!</div>
+<div id="mensagem">Diga as palavras certas para retirar seu tesouro!</div>
 
 <script>
 // HERO clique → fade + música
@@ -119,91 +109,84 @@ const hero = document.getElementById('hero');
 const music = document.getElementById('bg-music');
 hero.addEventListener('click', ()=>{
   hero.style.transition='opacity 1s ease';
-  hero.style.opacity='0';
-  setTimeout(()=>{ hero.style.display='none'; music.play().catch(()=>{}); document.querySelectorAll('section').forEach(s=>s.classList.add('visible')); }, 1000);
+  hero.style.opacity=0;
+  setTimeout(()=>{ hero.style.display='none'; },1000);
+  music.play().catch(()=>{});
+  document.querySelectorAll('section').forEach(s=>s.classList.add('visible'));
 });
 
-// CARROSSEL DEVAGAR + botões
+// CARROSSEL DEVAGAR + clique para avançar
 let index=0;
 const items=document.querySelectorAll('.carousel-item');
+const carousel=document.getElementById('carousel');
 function showItem(i){
   items.forEach(it=>it.classList.remove('active'));
   items[i].classList.add('active');
 }
-let carouselInterval=setInterval(()=>{
-  index=(index+1)%items.length;
-  showItem(index);
-},5000);
-
-document.getElementById('prevBtn').addEventListener('click', ()=>{
-  index=(index-1+items.length)%items.length;
-  showItem(index);
-});
-document.getElementById('nextBtn').addEventListener('click', ()=>{
+carousel.addEventListener('click',()=>{
   index=(index+1)%items.length;
   showItem(index);
 });
 
 // BOTÃO SURPRESA → confete + mensagem
 const btn=document.getElementById('btnSurpresa');
-const msg=document.getElementById('mensagemSurpresa');
+const mensagem=document.getElementById('mensagem');
 btn.addEventListener('click',()=>{
-  // mostrar mensagem
-  msg.style.opacity='1';
-  msg.scrollIntoView({behavior:'smooth', block:'center'});
-
-  // confete explosivo
-  createConfetti();
+  mensagem.style.display='block';
+  mensagem.style.opacity=0;
+  mensagem.style.transition='opacity 0.8s';
+  setTimeout(()=>{ mensagem.style.opacity=1; },10);
+  window.scrollTo({ top: mensagem.offsetTop-60, behavior:'smooth' });
+  confettiExplode();
 });
 
-// CONFETE EXPLOSIVO
-function createConfetti(){
-  const colors=['#ff2e74','#ff7ac0','#ffd4e6','#ffb3c1','#ff99c8','#ff80aa'];
-  const count=150;
-  for(let i=0;i<count;i++){
+// CONFETE COLORIDO EXPLOSIVO
+function confettiExplode(){
+  const colors=['#ff2e74','#ff7ac0','#ffd4e6','#ffb3c1','#ffdcf0','#ffa1c1'];
+  for(let i=0;i<200;i++){
     const c=document.createElement('div');
     c.style.position='fixed';
     c.style.width='6px';
-    c.style.height='6px';
+    c.style.height='10px';
     c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    c.style.left='50%';
-    c.style.top='50%';
-    c.style.borderRadius='50%';
+    c.style.left=window.innerWidth/2+'px';
+    c.style.top=window.innerHeight/2+'px';
+    c.style.opacity=1;
+    c.style.borderRadius='2px';
     c.style.zIndex='9999';
     c.style.pointerEvents='none';
     document.body.appendChild(c);
+
     const angle=Math.random()*2*Math.PI;
-    const speed=Math.random()*10+4;
+    const speed= Math.random()*8+4;
     const vx=Math.cos(angle)*speed;
     const vy=Math.sin(angle)*speed;
-    let x=window.innerWidth/2;
-    let y=window.innerHeight/2;
     let life=0;
     const anim=setInterval(()=>{
-      x+=vx; y+=vy; vy+=0.3; // gravidade
-      c.style.left=x+'px'; c.style.top=y+'px';
       life++;
-      if(life>80){ clearInterval(anim); c.remove(); }
-    },15);
+      c.style.left=parseFloat(c.style.left)+vx+'px';
+      c.style.top=parseFloat(c.style.top)+vy+'px';
+      c.style.opacity=1-(life/60);
+      if(life>60){ clearInterval(anim); c.remove(); }
+    },16);
   }
 }
 
-// PARTICULAS FLUTUANTES ROSA
+// PARTICULAS ROSADAS + CONTRASTE
 const canvas=document.getElementById('particles');
 const ctx=canvas.getContext('2d');
 canvas.width=innerWidth; canvas.height=innerHeight;
 const parts=[];
-for(let i=0;i<70;i++){
-  parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.6,dy:(Math.random()-0.5)*0.6});
+for(let i=0;i<80;i++){
+  parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.8,dy:(Math.random()-0.5)*0.8,color:`rgba(255,105,180,0.5)`});
 }
 function anim(){
   requestAnimationFrame(anim);
   ctx.clearRect(0,0,canvas.width,canvas.height);
   parts.forEach(p=>{
-    ctx.globalAlpha=0.5;
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle='#ff73a5';
+    ctx.fillStyle=p.color;
     ctx.fill();
     p.x+=p.dx; p.y+=p.dy;
     if(p.x<0||p.x>innerWidth)p.dx*=-1;
