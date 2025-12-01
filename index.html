@@ -1,547 +1,248 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Surpresa</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Surpresa — Mapa</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg: #ffffff;
-      --text: #111111;
-      --accent: #b93a3a;       /* vermelho suave */
-      --muted: #6b6b6b;
-      --gold: #c9a34a;
-      --card-shadow: 0 8px 24px rgba(17,17,17,0.06);
-      --radius: 14px;
-      --max-width: 980px;
-    }
+<style>
+:root{
+  --bg:#fdeeea;        /* parchment warm */
+  --paper:#fff7f4;
+  --accent:#b93a3a;    /* vermelho suave */
+  --gold:#c99b3f;
+  --ink:#2a2a2a;
+  --muted:#6b6b6b;
+  --maxw:1100px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+  background: linear-gradient(180deg,#fff7f4 0%, #fdeeea 100%);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
 
-    /* Reset minimal */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, var(--bg) 0%, #fff8f8 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-    }
+/* container */
+.wrap{max-width:var(--maxw);margin:28px auto;padding:18px}
 
-    .container{
-      max-width:var(--max-width);
-      margin:0 auto;
-      padding:28px;
-    }
+/* header small */
+.header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+}
+.logo{
+  width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--gold));
+  display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-family:Playfair Display,serif;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+.title{
+  font-family: "Playfair Display", serif;
+  font-size:20px;margin:0;
+}
+.subtitle{font-size:13px;color:var(--muted);margin:0}
 
-    /* Hero */
-    .hero{
-      min-height:72vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:48px 16px;
-      position:relative;
-    }
-    .hero-inner{
-      width:100%;
-      max-width:780px;
-      background:linear-gradient(180deg,rgba(255,255,255,0.8), rgba(255,255,255,0.9));
-      border-radius:var(--radius);
-      padding:44px;
-      box-shadow:var(--card-shadow);
-      border:1px solid rgba(201,163,74,0.06);
-    }
-    .title{
-      font-family: "Playfair Display", serif;
-      font-size:36px;
-      margin:0 0 8px;
-      color:var(--text);
-      letter-spacing:0.6px;
-    }
-    .subtitle{
-      color:var(--muted);
-      margin:0 0 18px;
-      font-size:16px;
-    }
-    .divider{
-      height:2px;
-      width:64px;
-      background:var(--gold);
-      margin:18px auto;
-      border-radius:4px;
-    }
-    .cta{
-      margin-top:22px;
-    }
-    .btn{
-      display:inline-block;
-      padding:12px 20px;
-      font-weight:600;
-      border-radius:10px;
-      cursor:pointer;
-      border:2px solid var(--text);
-      background:transparent;
-      color:var(--text);
-      transition:all .18s ease;
-    }
-    .btn:hover{transform:translateY(-3px)}
-    .btn-primary{
-      background:var(--text);
-      color:#fff;
-      border:0;
-      box-shadow:0 10px 24px rgba(0,0,0,0.08);
-    }
+/* main map area */
+.map-area{
+  position:relative;
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+  border:1px solid rgba(0,0,0,0.04);
+}
 
-    /* small audio control */
-    .audio-control{
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      z-index:60;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      background:rgba(255,255,255,0.9);
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(17,17,17,0.06);
-      box-shadow:var(--card-shadow);
-    }
-    .audio-btn{
-      background:transparent;
-      border:0;
-      cursor:pointer;
-      font-weight:700;
-      color:var(--text);
-    }
-    .mute-toggle{
-      font-size:13px;
-      color:var(--muted);
-    }
+/* background map image */
+.map-bg{
+  width:100%;
+  height:72vh;
+  min-height:420px;
+  background-image: url('assets/map-bg.jpg'); /* SUBSTITUA com sua imagem de mapa (ou use a fornecida) */
+  background-size:cover;
+  background-position:center;
+  filter:contrast(0.96) saturate(1.05);
+  position:relative;
+}
 
-    /* Sections */
-    section{
-      padding:56px 16px;
-    }
-    h2.section-title{
-      font-family: "Playfair Display", serif;
-      font-size:26px;
-      margin:10px 0 18px;
-    }
-    p.lead{
-      color:var(--muted);
-      margin:0 0 22px;
-    }
+/* parchment panel top */
+.panel{
+  position:absolute;left:18px;top:18px;background:linear-gradient(180deg, rgba(255,250,244,0.95), rgba(255,244,238,0.9));
+  padding:12px 16px;border-radius:12px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  max-width:420px;
+}
+.panel h1{margin:0;font-family:Playfair Display;font-size:22px}
+.panel p{margin:6px 0 0;color:var(--muted);font-size:14px}
 
-    /* Carousel */
-    .carousel{
-      position:relative;
-      border-radius:12px;
-      overflow:hidden;
-      background:#fff;
-      padding:22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:var(--card-shadow);
-    }
-    .slides{
-      width:100%;
-      max-width:880px;
-      height:420px;
-      position:relative;
-    }
-    .slide{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transition:opacity .9s ease;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-    }
-    .slide.active{opacity:1}
-    .slide img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      border-radius:10px;
-      box-shadow:0 12px 32px rgba(0,0,0,0.08);
-    }
-    .caption{
-      position:absolute;
-      left:28px;
-      bottom:20px;
-      background:linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.25));
-      color:#fff;
-      padding:10px 14px;
-      border-radius:8px;
-      font-size:14px;
-      backdrop-filter: blur(4px);
-    }
+/* hotspots style */
+.hotspot{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.pin{
+  background:linear-gradient(180deg,#fff, #ffeedd);
+  border-radius:8px;
+  padding:8px 12px;
+  border:2px solid rgba(0,0,0,0.06);
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  font-weight:700;
+  color:var(--ink);
+  font-size:13px;
+  font-family:Playfair Display,serif;
+  letter-spacing:0.2px;
+}
+.pin .x{
+  display:inline-block;margin-right:6px;color:var(--accent)
+}
 
-    /* Cards grid */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-      gap:18px;
-      margin-top:18px;
-    }
-    .card{
-      background:#fff;
-      padding:18px;
-      border-radius:12px;
-      box-shadow:var(--card-shadow);
-      border:1px solid rgba(17,17,17,0.03);
-    }
-    .card h3{margin:0 0 8px;font-size:16px}
-    .card p{margin:0;color:var(--muted);font-size:14px}
+/* little icon marker */
+.marker{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  display:flex;align-items:center;justify-content:center;color:white;font-size:14px;font-weight:700;
+  box-shadow:0 6px 16px rgba(0,0,0,0.18);
+  border:2px solid rgba(255,255,255,0.14);
+}
 
-    /* Surprise button area */
-    .surprise-area{
-      text-align:center;
-      padding:40px 16px;
-      border-radius:12px;
-      background:linear-gradient(180deg, rgba(185,58,58,0.04), rgba(201,163,74,0.02));
-      box-shadow:var(--card-shadow);
-    }
-    .surprise-btn{
-      background:var(--text);
-      color:#fff;
-      padding:16px 28px;
-      border-radius:12px;
-      font-weight:700;
-      font-size:16px;
-      border:0;
-      cursor:pointer;
-    }
+/* footer controls at bottom */
+.controls{
+  display:flex;align-items:center;gap:12px;position:absolute;right:18px;bottom:18px;
+  background:rgba(255,255,255,0.92);padding:8px;border-radius:12px;border:1px solid rgba(0,0,0,0.04);
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+.control-btn{
+  background:transparent;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--ink)
+}
+.control-btn.primary{background:var(--accent);color:white;border:0;box-shadow:0 8px 18px rgba(185,58,58,0.14)}
 
-    /* Footer */
-    footer{
-      text-align:center;
-      padding:26px 16px;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    /* responsive tweaks */
-    @media (max-width:720px){
-      .hero-inner{padding:26px}
-      .slide{padding:8px}
-      .slides{height:260px}
-    }
-
-    /* confetti canvas top layer */
-    #confetti-canvas{
-      position:fixed;
-      left:0;
-      top:0;
-      width:100%;
-      height:100%;
-      pointer-events:none;
-      z-index:9999;
-    }
-  </style>
+/* responsive */
+@media (max-width:880px){
+  .map-bg{height:60vh}
+  .panel{max-width:300px}
+  .panel h1{font-size:18px}
+}
+</style>
 </head>
 <body>
 
-  <!-- Audio (replace src with your file or an allowed hosted mp3) -->
-  <!-- If you want to use YouTube, it's better to embed and user must click play due to autoplay policies -->
-  <audio id="bg-audio" loop preload="auto">
-    <!-- SUBSTITUA POR UM ARQUIVO MP3 HOSPEDADO (ex: /assets/pictures-of-you.mp3) -->
-    <source src="pictures-of-you.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio embutido.
-  </audio>
-
-  <!-- Canvas para confetti -->
-  <canvas id="confetti-canvas"></canvas>
-
-  <div class="container">
-
-    <!-- HERO -->
-    <header class="hero" id="home">
-      <div class="hero-inner">
-        <h1 class="title">Bem-vindo à nossa história</h1>
-        <p class="subtitle">Uma jornada feita de amor, caos, fotos tortas, risadas e nós dois.</p>
-        <div class="divider" aria-hidden="true"></div>
-        <div class="cta">
-          <button class="btn" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Começar</button>
-        </div>
+<div class="wrap">
+  <header class="header">
+    <div class="brand">
+      <div class="logo">M</div>
+      <div>
+        <h2 class="title">Surpresa</h2>
+        <p class="subtitle">Um mapa, uma caça e o melhor presente</p>
       </div>
-    </header>
+    </div>
 
-    <!-- CAROUSEL -->
-    <section id="gallery">
-      <h2 class="section-title">Nossos Momentos</h2>
-      <p class="lead">Fotos que contam cada capítulo — clique ou deixe o carrossel rodar.</p>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="control-btn" onclick="location.href='gallery.html'">Nossos Momentos</button>
+      <button class="control-btn" onclick="location.href='story.html'">Nossa História</button>
+      <button class="control-btn primary" id="soundBtn">Nossa trilha sonora</button>
+    </div>
+  </header>
 
-      <div class="carousel" aria-roledescription="carousel">
-        <div class="slides" id="slides">
-          <!-- Substitua as imagens abaixo pelas suas (urls relativas / absolutas) -->
-          <div class="slide active" data-caption="05/08/2023 — Primeiro rolê juntos">
-            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=ad1d3c9c6acc059f6d2f6d1f1d5c9f6f" alt="Foto 1">
-            <div class="caption">05/08/2023 — Primeiro rolê juntos</div>
-          </div>
-
-          <div class="slide" data-caption="14/02/2024 — O dia que quase caímos tirando foto">
-            <img src="https://images.unsplash.com/photo-1524503033411-c9566986fc8f?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=2c8a7b9f6de8f5b1c6f8c9a0b7e4f1d1" alt="Foto 2">
-            <div class="caption">14/02/2024 — O dia que quase caímos tirando foto</div>
-          </div>
-
-          <div class="slide" data-caption="20/09/2024 — Bazoo furou nosso date">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=9f6a5b2a1c4d8b7e3a2b1c0d9e8f7a6b" alt="Foto 3">
-            <div class="caption">20/09/2024 — Bazoo furou nosso date</div>
-          </div>
-        </div>
+  <main class="map-area">
+    <div class="map-bg" id="map">
+      <!-- parchment panel -->
+      <div class="panel">
+        <h1>Mapa do Tesouro</h1>
+        <p>Marque o caminho e descubra o que eu preparei pra você. Clique nos símbolos para abrir cada surpresa.</p>
       </div>
-    </section>
 
-    <!-- A NOSSA JORNADA -->
-    <section id="journey">
-      <h2 class="section-title">A Nossa Jornada</h2>
-      <p class="lead">Aqui vai a sua carta — cole seu texto ou escreva direto no campo abaixo.</p>
-
-      <div class="card" style="margin-top:12px;">
-        <!-- Deixe este espaço pronto para o texto da sua carta -->
-        <div id="carta-placeholder">
-          <p style="margin:0;color:var(--muted);">[Cole sua carta aqui — eu deixei o espaço pronto. Pode incluir parágrafos e fotos se quiser.]</p>
-        </div>
+      <!-- HOTSPOTS - posicione usando percentuais -->
+      <!-- 1. Dispensa / Café -->
+      <div class="hotspot" style="left:18%; top:34%;" data-target="story.html">
+        <div class="marker">☕</div>
+        <div class="pin"><span class="x">X</span> Dispensa</div>
       </div>
-    </section>
 
-    <!-- COISAS QUE AMO EM VOCÊ -->
-    <section id="lovelist">
-      <h2 class="section-title">Coisas que eu amo em você</h2>
-      <p class="lead">Pequenas verdades, grandes motivos.</p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Palhaço</h3>
-          <p>Você me faz rir mesmo quando eu digo que tô séria. Obrigada por cada piada (mesmo as ruins).</p>
-        </div>
-        <div class="card">
-          <h3>Amoroso</h3>
-          <p>Do jeito que cuida, do jeito que segura minha mão — esse amor me acalma.</p>
-        </div>
-        <div class="card">
-          <h3>Determinado</h3>
-          <p>Quando você quer, você vai até o fim. E eu amo essa coragem em você.</p>
-        </div>
-        <div class="card">
-          <h3>Grudados</h3>
-          <p>Somos a prova de que querer fazer dar certo transforma tudo.</p>
-        </div>
+      <!-- 2. Banheiro -->
+      <div class="hotspot" style="left:54%; top:26%;" data-target="gallery.html">
+        <div class="marker">🛁</div>
+        <div class="pin"><span class="x">X</span> Banheiro</div>
       </div>
-    </section>
 
-    <!-- NÓS DOIS -->
-    <section id="us">
-      <h2 class="section-title">Nós dois</h2>
-      <p class="lead">Grudados, superando, aprendendo — sempre juntos.</p>
-
-      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:14px">
-        <div style="flex:1;min-width:220px">
-          <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd1234" alt="nós" style="width:100%;border-radius:10px;box-shadow:var(--card-shadow)">
-        </div>
-        <div style="flex:1;min-width:220px">
-          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=efgh5678" alt="nós2" style="width:100%;border-radius:10px;box-shadow:var(--card-shadow)">
-        </div>
+      <!-- 3. Guitarra -->
+      <div class="hotspot" style="left:72%; top:52%;" data-target="story.html">
+        <div class="marker">🎸</div>
+        <div class="pin"><span class="x">X</span> Guitarra</div>
       </div>
-    </section>
 
-    <!-- DECLARAÇÃO / FINAL -->
-    <section id="declaration">
-      <h2 class="section-title">Declaração</h2>
-      <p class="lead">Tudo que somos vale a pena.</p>
-
-      <div class="card" style="margin-top:12px;text-align:center;">
-        <p style="font-family:'Playfair Display', serif; font-size:18px; margin:12px 0 0; color:var(--text)">
-          A melhor parte da minha vida tem sido encontrar você em todas as versões de mim.
-        </p>
+      <!-- 4. Cama -->
+      <div class="hotspot" style="left:36%; top:64%;" data-target="declaration.html">
+        <div class="marker">🛏️</div>
+        <div class="pin"><span class="x">X</span> Cama</div>
       </div>
-    </section>
 
-    <!-- SURPRESA FINAL -->
-    <section id="surprise">
-      <h2 class="section-title">Pronto para o seu presente?</h2>
-      <p class="lead">Clique no botão abaixo quando eu estiver com a caixa na mão 😏</p>
-
-      <div class="surprise-area">
-        <button class="surprise-btn" id="surpriseBtn">CLIQUE AQUI PARA RECEBER SEU PRESENTE</button>
+      <!-- 5. Quarto dos pets -->
+      <div class="hotspot" style="left:82%; top:18%;" data-target="gallery.html">
+        <div class="marker">🐰</div>
+        <div class="pin"><span class="x">X</span> Pets</div>
       </div>
-    </section>
 
-  </div>
+      <!-- Final: Tesouro -->
+      <div class="hotspot" style="left:86%; top:74%;" data-target="surprise.html">
+        <div class="marker">🎁</div>
+        <div class="pin"><span class="x">X</span> Tesouro</div>
+      </div>
 
-  <footer>
-    Feito com ♥ por Mari • Surpresa 2025
+      <!-- bottom controls -->
+      <div class="controls" role="region" aria-label="Controles">
+        <button class="control-btn" onclick="location.href='index.html'">Mapa</button>
+        <button class="control-btn" onclick="location.href='story.html'">História</button>
+        <button class="control-btn" onclick="location.href='gallery.html'">Fotos</button>
+        <button class="control-btn" onclick="location.href='declaration.html'">Declaração</button>
+      </div>
+    </div>
+  </main>
+
+  <footer style="margin-top:18px;color:var(--muted);font-size:13px;text-align:center">
+    Dica: clique nas marcações X do mapa para seguir a trilha. • Feito com ♥ por Mari
   </footer>
+</div>
 
-  <!-- Audio control UI -->
-  <div class="audio-control" id="audioUi" aria-hidden="false" style="display:none;">
-    <button id="playToggle" class="audio-btn">▶︎ Tocar música</button>
-    <div class="mute-toggle" id="muteToggle" style="display:none">🔈</div>
-  </div>
+<!-- optional audio (no autoplay) -->
+<audio id="track" preload="none">
+  <source src="assets/pictures-of-you.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
 
-  <script>
-    /* ---------- CARROSSEL ---------- */
-    (function(){
-      const slides = Array.from(document.querySelectorAll('.slide'));
-      let idx = 0;
-      const CHANGE_MS = 4500;
+<script>
+  // hotspot navigation
+  document.querySelectorAll('.hotspot').forEach(h => {
+    h.addEventListener('click', ()=> {
+      const tgt = h.getAttribute('data-target');
+      if (tgt) location.href = tgt;
+    });
+  });
 
-      function show(i){
-        slides.forEach(s => s.classList.remove('active'));
-        slides[i].classList.add('active');
+  // sound button
+  const track = document.getElementById('track');
+  const soundBtn = document.getElementById('soundBtn');
+  let playing = false;
+  soundBtn.addEventListener('click', async ()=>{
+    try {
+      if (!playing) {
+        await track.play();
+        soundBtn.textContent = '⏸ Parar trilha';
+        playing = true;
+      } else {
+        track.pause();
+        soundBtn.textContent = 'Nossa trilha sonora';
+        playing = false;
       }
+    } catch(e){
+      alert('Seu navegador pode bloquear áudio automático. Tente permitir o som.');
+    }
+  });
+</script>
 
-      let interval = setInterval(()=>{
-        idx = (idx + 1) % slides.length;
-        show(idx);
-      }, CHANGE_MS);
-
-      // Pause on hover (desktop)
-      const slidesEl = document.getElementById('slides');
-      slidesEl.addEventListener('mouseenter', ()=> clearInterval(interval));
-      slidesEl.addEventListener('mouseleave', ()=> {
-        interval = setInterval(()=>{
-          idx = (idx + 1) % slides.length;
-          show(idx);
-        }, CHANGE_MS);
-      });
-
-      // allow clicking slides to advance
-      slides.forEach((s,i)=> s.addEventListener('click', ()=> {
-        idx = (i+1) % slides.length;
-        show(idx);
-      }));
-    })();
-
-    /* ---------- AUDIO AUTOPLAY WITH FALLBACK ---------- */
-    (function(){
-      const audio = document.getElementById('bg-audio');
-      const audioUi = document.getElementById('audioUi');
-      const playToggle = document.getElementById('playToggle');
-
-      function showUi(){
-        audioUi.style.display = 'flex';
-      }
-
-      // try autoplay once document loads
-      window.addEventListener('load', async ()=>{
-        try {
-          await audio.play();
-          // autoplay succeeded
-          audioUi.style.display = 'none';
-        } catch (e) {
-          // autoplay blocked -> show small UI
-          showUi();
-        }
-      });
-
-      playToggle.addEventListener('click', async ()=>{
-        try {
-          if (audio.paused) {
-            await audio.play();
-            playToggle.textContent = '⏸ Pausar música';
-          } else {
-            audio.pause();
-            playToggle.textContent = '▶︎ Tocar música';
-          }
-        } catch(err){
-          console.warn('play err', err);
-        }
-      });
-
-      // update button text when user uses external controls
-      audio.addEventListener('play', ()=> playToggle.textContent = '⏸ Pausar música');
-      audio.addEventListener('pause', ()=> playToggle.textContent = '▶︎ Tocar música');
-
-      // Show UI immediately for mobile where autoplay is almost always blocked
-      setTimeout(showUi, 1200);
-    })();
-
-    /* ---------- SURPRISE BUTTON + CONFETTI ---------- */
-    (function(){
-      const btn = document.getElementById('surpriseBtn');
-      const canvas = document.getElementById('confetti-canvas');
-      const ctx = canvas.getContext('2d');
-      let W, H;
-      function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
-      window.addEventListener('resize', resize);
-      resize();
-
-      // simple confetti particles
-      function Confetti(){
-        this.x = Math.random()*W;
-        this.y = -10 - Math.random()*H*0.2;
-        this.size = 6 + Math.random()*8;
-        this.speedY = 2 + Math.random()*4;
-        this.speedX = -2 + Math.random()*4;
-        this.rotation = Math.random()*360;
-        this.color = ['#b93a3a','#ffd3a5','#c9a34a','#111111'][Math.floor(Math.random()*4)];
-        this.tilt = Math.random()*10;
-        this.opacity = 0.9;
-      }
-      Confetti.prototype.update = function(){
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.rotation += 8;
-        this.tilt = Math.sin(this.rotation * Math.PI/180)*12;
-      };
-      Confetti.prototype.draw = function(ctx){
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation * Math.PI/180);
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.opacity;
-        ctx.fillRect(-this.size/2 + this.tilt, -this.size/2, this.size, this.size*0.6);
-        ctx.restore();
-      };
-
-      let confettis = [];
-      function startConfetti(){
-        confettis = [];
-        for(let i=0;i<120;i++) confettis.push(new Confetti());
-        let frames = 0;
-        const anim = setInterval(()=>{
-          ctx.clearRect(0,0,W,H);
-          confettis.forEach((c, i)=>{
-            c.update();
-            c.draw(ctx);
-            if(c.y > H + 40) confettis.splice(i,1);
-          });
-          frames++;
-          if(frames>220) { clearInterval(anim); ctx.clearRect(0,0,W,H); }
-        }, 16);
-      }
-
-      btn.addEventListener('click', ()=>{
-        // show confetti + gentle message
-        startConfetti();
-        btn.textContent = 'Encontre-me 💛 (agora eu tenho sua caixa)';
-        // small accessible announcement
-        const live = document.createElement('div');
-        live.setAttribute('aria-live', 'polite');
-        live.style.position='fixed'; live.style.left='-9999px';
-        live.textContent = 'Surpresa pronta! Agora entregue a caixa pessoalmente.';
-        document.body.appendChild(live);
-      });
-    })();
-
-    /* ---------- OPTIONAL: smooth scroll for internal links ---------- */
-    (function(){
-      document.documentElement.style.scrollBehavior = 'smooth';
-    })();
-
-  </script>
 </body>
 </html>
