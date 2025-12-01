@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surpresa — Tesouro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter;background:linear-gradient(180deg,#fff7f4,#fdeeea);color:#222}
+.wrap{max-width:720px;margin:48px auto;padding:18px;text-align:center}
+h1{font-family:Playfair Display;font-size:28px}
+.btn{background:#b93a3a;color:#fff;padding:14px 20px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
+.note{color:#6b6b6b;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Você encontrou o tesouro!</h1>
+  <p class="note">Aperte o botão quando eu estiver com a caixa em mãos.</p>
+
+  <button class="btn" id="reveal">Clique para confirmar</button>
+
+  <p id="msg" style="margin-top:18px;color:#6b6b6b"></p>
+</div>
+
+<script>
+document.getElementById('reveal').addEventListener('click', ()=>{
+  document.getElementById('msg').textContent = 'Perfeito — agora me passa a caixa e me dá um beijo.';
+  document.getElementById('reveal').textContent = 'Pronto!';
+});
+</script>
+</body>
+</html>
