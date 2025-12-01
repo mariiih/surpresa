@@ -1,271 +1,182 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Surpresa</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz 2 anos de namoro</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #0a0a0f;
+      color: white;
+      overflow-x: hidden;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #fff;
-  overflow-x: hidden;
-}
+    /* --- HERO (somente aqui a foto bg-casal.jpg aparece) --- */
+    .hero {
+      height: 100vh;
+      background: url('assets/bg-casal.jpg') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75));
+      backdrop-filter: blur(4px);
+    }
+    .hero h1 {
+      font-size: 3rem;
+      z-index: 2;
+      font-weight: 600;
+      letter-spacing: 1px;
+      animation: fadeIn 2s ease;
+      text-shadow: 0 0 15px rgba(255,100,150,0.7);
+    }
 
-/* INTRODUÇÃO */
-.intro-screen {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(135deg, #ff0055, #ff5500);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  z-index: 9999;
-  text-align: center;
-  padding: 20px;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
-}
+    /* --- PARTICULAS COLORIDAS --- */
+    #particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      opacity: 0.45;
+      pointer-events: none;
+    }
 
-.intro-screen h1 {
-  font-size: 2.8rem;
-  text-shadow: 2px 2px 6px #000;
-  margin-bottom: 10px;
-}
-.intro-screen p {
-  font-size: 1.4rem;
-  opacity: 0.9;
-}
+    /* --- SEÇÕES --- */
+    section {
+      padding: 70px 28px;
+      text-align: center;
+      animation: fadeInUp 1.3s ease;
+    }
 
-@media(max-width:600px){
-  .intro-screen h1 { font-size: 2.3rem; }
-  .intro-screen p { font-size: 1.2rem; }
-}
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 18px;
+      color: #ff6fa8;
+      text-shadow: 0 0 10px rgba(255,120,150,0.4);
+    }
 
-/* SESSÕES */
-section {
-  padding: 40px 20px;
-}
+    /* CARROSSEL POLAROID MAIS BONITO */
+    .carousel {
+      width: 95%; max-width: 360px;
+      margin: auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(255,100,150,0.35);
+      background: #1b1b22;
+      padding-bottom: 10px;
+    }
+    .carousel img {
+      width: 100%;
+      display: none;
+      border-radius: 16px;
+      transition: opacity 1.5s ease;
+    }
+    .carousel img.active { display: block; opacity: 1; }
 
-h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
+    .caption {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #ffd4e6;
+      padding: 0 8px 10px;
+    }
 
-/* CARROSSEL */
-.carousel-container {
-  width: 95%;
-  max-width: 480px;
-  margin: 0 auto 40px auto;
-  overflow: hidden;
-  position: relative;
-}
+    /* Botões com vibração */
+    button {
+      margin-top: 20px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #ff2e74, #ff7ac0);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.3s;
+      box-shadow: 0 0 15px rgba(255,80,140,0.4);
+    }
+    button:active { transform: scale(0.94); }
 
-.carousel-track {
-  display: flex;
-  transition: transform 0.6s ease;
-}
+    /* Coração pulsando */
+    .heart {
+      font-size: 3.4rem;
+      animation: pulse 1.4s infinite ease-in-out;
+      color: #ff73a5;
+      text-shadow: 0 0 15px rgba(255,100,150,0.7);
+    }
 
-.polaroid {
-  min-width: 100%;
-  background: #fff;
-  color: #000;
-  padding: 10px;
-  box-sizing: border-box;
-  border-radius: 6px;
-  text-align: center;
-}
-
-.polaroid img {
-  width: 100%;
-  border-radius: 4px;
-}
-
-.caption {
-  margin-top: 10px;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-
-/* CARTA */
-.carta {
-  max-width: 700px;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-/* O QUE AMO EM VC */
-.lista-amor {
-  max-width: 600px;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-</style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+    @keyframes pulse { 0%{ transform: scale(1);} 50%{ transform: scale(1.25);} 100%{ transform: scale(1);} }
+  </style>
 </head>
-
 <body>
 
-<!-- INTRO -->
-<div id="intro" class="intro-screen">
-  <h1>FELIZ 2 ANOS DE NAMORO!</h1>
-  <p>Toque para começar</p>
-</div>
+  <!-- Partículas -->
+  <canvas id="particles"></canvas>
 
-<!-- MÚSICA -->
-<audio id="bg-music" src="assets/pictures-of-you.mp3" preload="auto"></audio>
-
-<!-- NOSSA HISTÓRIA -->
-<section id="historia">
-  <h2>Nossa História</h2>
-  <p style="text-align:center; max-width:700px; margin:0 auto;">
-    Momentos incríveis juntos, aventuras, descobertas, carinho e tudo o que nos trouxe até aqui.
-  </p>
-</section>
-
-<!-- CARROSSEL -->
-<div class="carousel-container">
-  <div class="carousel-track">
-
-    <!-- JANEIRO -->
-    <div class="polaroid">
-      <img src="assets/janeiro.jpg">
-      <div class="caption">12/Janeiro - Casa do Rock Bar<br>Um dos primeiros shows de retorno do Rainhas de Marte, e eu sempre te acompanhando!</div>
-    </div>
-
-    <!-- FEVEREIRO -->
-    <div class="polaroid">
-      <img src="assets/fevereiro.jpg">
-      <div class="caption">28/Fevereiro - Madame<br>Você deu PT e nasceu o vídeo de você morrendo no metrô e dormindo sentado.</div>
-    </div>
-
-    <!-- MARCO -->
-    <div class="polaroid">
-      <img src="assets/março.jpg">
-      <div class="caption">15/Março - Simply Red (Allianz)<br>Vivemos tantas coisas em março, mas esse show ao seu lado foi incrível. Muito amor e risadas.</div>
-    </div>
-
-    <!-- ABRIL -->
-    <div class="polaroid">
-      <img src="assets/abril.jpg">
-      <div class="caption">11/Abril - Skylab<br>Não tinha como deixar de fora. Esse dia foi muito gostoso.</div>
-    </div>
-
-    <!-- MAIO -->
-    <div class="polaroid">
-      <img src="assets/maio.jpg">
-      <div class="caption">14/Maio - System of a Down<br>Inesquecível tudo o que vivemos naquele show. Ter você ao meu lado deixa tudo mais especial.</div>
-    </div>
-
-    <!-- JUNHO -->
-    <div class="polaroid">
-      <img src="assets/junho.jpg">
-      <div class="caption">14/Junho - Alice Cooper + Madame<br>Aproveitamos demais. E no dia seguinte ainda fomos no Deep Purple.</div>
-    </div>
-
-    <!-- JULHO -->
-    <div class="polaroid">
-      <img src="assets/julho.jpg">
-      <div class="caption">26/Julho - Na minha casa<br>Escolhi essa porque amo nossos momentos de bobeira e caretas.</div>
-    </div>
-
-    <!-- AGOSTO -->
-    <div class="polaroid">
-      <img src="assets/agosto.jpg">
-      <div class="caption">09/Agosto - Na sua mãe<br>Uma das nossas várias fotos no elevador. Me lembra coisas boas.</div>
-    </div>
-
-    <!-- SETEMBRO -->
-    <div class="polaroid">
-      <img src="assets/setembro.jpg">
-      <div class="caption">07/Setembro - The Town<br>Muito pouco felizes após o show do Iggy Pop. Que dia.</div>
-    </div>
-
-    <!-- OUTUBRO -->
-    <div class="polaroid">
-      <img src="assets/outubro.jpg">
-      <div class="caption">31/10 - Após o show do Michale Graves<br>Amo essa foto. Sua cara de maníaco está A+.</div>
-    </div>
-
-    <!-- NOVEMBRO -->
-    <div class="polaroid">
-      <img src="assets/novembro.jpg">
-      <div class="caption">15/Novembro - Molchat Doma<br>A gente vira adolescente e faz loucuras. Cada uma vale a pena só por ser contigo.</div>
-    </div>
-
+  <!-- HERO com a foto -->
+  <div class="hero">
+    <h1>Feliz 2 anos de namoro, meu amor ❤️</h1>
   </div>
-</div>
 
-<!-- CARTA -->
-<section>
-  <h2>Minha Carta Para Você</h2>
-  <div class="carta">
-    <p>
-      Dois anos ao seu lado parecem um sonho que não acaba.  
-      Cada dia, cada momento, cada detalhe foi construindo algo que eu nunca pensei que viveria tão intensamente.  
-      Você trouxe luz, trouxe paz, trouxe carinho, trouxe força, trouxe risadas... trouxe tudo.
-    </p>
-    <p>
-      Obrigada por ser meu parceiro em tudo.  
-      Obrigada por dividir sua vida comigo.  
-      Obrigada por me amar do jeitinho que você ama.
-    </p>
-    <p>
-      Te amo mais do que qualquer página consegue descrever.
-    </p>
-  </div>
-</section>
+  <!-- Seção Eu amo isso em você -->
+  <section>
+    <h2>O que eu mais amo em você 💕</h2>
+    <div class="carousel" id="carousel">
+      <img src="assets/janeiro.jpg" class="active" alt="Janeiro">
+      <img src="assets/fevereiro.jpg" alt="Fevereiro">
+      <img src="assets/março.jpg" alt="Março">
+      <img src="assets/abril.jpg" alt="Abril">
+      <img src="assets/maio.jpg" alt="Maio">
+      <img src="assets/junho.jpg" alt="Junho">
+      <img src="assets/julho.jpg" alt="Julho">
+      <img src="assets/agosto.jpg" alt="Agosto">
+      <img src="assets/setembro.jpg" alt="Setembro">
+      <img src="assets/outubro.jpg" alt="Outubro">
+      <img src="assets/novembro.jpg" alt="Novembro">
+    </div>
+  </section>
 
-<!-- O QUE AMO -->
-<section>
-  <h2>O Que Eu Mais Amo Em Você</h2>
-  <div class="lista-amor">
-    <p>Seu sorriso.</p>
-    <p>Seu jeito bobo.</p>
-    <p>Sua companhia em qualquer coisa.</p>
-    <p>Seu carinho.</p>
-    <p>Seu olhar.</p>
-    <p>Seu toque.</p>
-    <p>Seu abraço.</p>
-    <p>O jeito que você me faz sentir em casa.</p>
-  </div>
-</section>
+  <!-- Final com coração e easter egg -->
+  <section>
+    <p>Com todo meu amor...</p>
+    <div class="heart">❤️</div>
+    <p style="margin-top:16px; opacity:0.5; font-size:0.8rem; cursor:pointer;" onclick="easterEgg()">(não clique aqui)</p>
+  </section>
 
-<script>
-// INTRO + MÚSICA + SCROLL
-const intro = document.getElementById("intro");
-const music = document.getElementById("bg-music");
+  <script>
+    /* --- CARROSSEL DEVAGAR COM FADE --- */
+    let index = 0;
+    const imgs = document.querySelectorAll('#carousel img');
+    setInterval(() => {
+      imgs[index].classList.remove('active');
+      index = (index + 1) % imgs.length;
+      imgs[index].classList.add('active');
+    }, 3200);
 
-intro.addEventListener("click", () => {
-  music.play().catch(()=>{});
-  intro.style.opacity = "0";
-  intro.style.visibility = "hidden";
+    /* --- EASTER EGG --- */
+    function easterEgg(){ alert('Eu te amo mais do que você imagina ❤️'); }
 
-  const historia = document.querySelector("#historia");
-  historia.scrollIntoView({ behavior: "smooth" });
-});
-
-// CARROSSEL
-let index = 0;
-const track = document.querySelector(".carousel-track");
-const slides = document.querySelectorAll(".polaroid");
-
-function nextSlide() {
-  index = (index + 1) % slides.length;
-  track.style.transform = `translateX(-${index * 100}%)`;
-}
-
-setInterval(nextSlide, 3000);
-</script>
+    /* --- PARTICULAS MODERNAS --- */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    const parts = [];
+    for(let i=0;i<70;i++){ parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.6,dy:(Math.random()-0.5)*0.6}); }
+    function anim(){ requestAnimationFrame(anim); ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='white'; parts.forEach(p=>{ ctx.globalAlpha = 0.25; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); p.x+=p.dx; p.y+=p.dy; if(p.x<0||p.x>innerWidth)p.dx*=-1; if(p.y<0||p.y>innerHeight)p.dy*=-1; }); }
+    anim();
+  </script>
 
 </body>
 </html>
