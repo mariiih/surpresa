@@ -457,7 +457,33 @@ function setupCarousel(carouselId, autoplayInterval = 4000) {
 
 // Inicializa os carrosséis
 setupCarousel('carousel');
-setupCarousel('carouselBizo');
+
+function setupFadeCarousel(carouselId, autoplayInterval = 4000) {
+  const carousel = document.getElementById(carouselId);
+  const items = carousel.querySelectorAll('.carousel-item');
+  let index = 0;
+
+  function showItem(i) {
+    items.forEach(it => it.classList.remove('active'));
+    items[i].classList.add('active');
+  }
+
+  showItem(index);
+
+  // Clique para próxima imagem
+  carousel.addEventListener('click', () => {
+    index = (index + 1) % items.length;
+    showItem(index);
+  });
+
+  // Autoplay
+  setInterval(() => {
+    index = (index + 1) % items.length;
+    showItem(index);
+  }, autoplayInterval);
+}
+
+setupFadeCarousel('carouselBizo');
 
 </script>
 
