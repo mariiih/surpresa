@@ -220,7 +220,6 @@ button:active { transform:scale(0.94); }
 <!-- Botão surpresa -->
 <section id="surpresa">
   <button id="btnSurpresa">Clique aqui</button>
-  <span id="closeMsg">×</span>
 </section>
 
 <!-- Mensagem surpresa -->
@@ -331,12 +330,13 @@ window.addEventListener('scroll',()=>{
 });
 
   // Fechar a mensagem ao clicar no ×
-const close = document.getElementById('closeMsg');
+const close = document.querySelector('#mensagem #closeMsg');
 close.addEventListener('click', () => {
   mensagem.style.transition = 'opacity 0.5s';
   mensagem.style.opacity = 0;
   setTimeout(() => { mensagem.style.display = 'none'; }, 500);
 });
+
 
 // CARROSSEL VERSÕES DO BIZO (mobile friendly)
 let indexBizo = 0;
