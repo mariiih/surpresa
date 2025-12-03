@@ -36,11 +36,44 @@ section.visible { opacity:1; transform:translateY(0); }
 h2 { font-size:2rem; margin-bottom:18px; color:#ff6fa8; text-shadow:0 0 10px rgba(255,120,150,0.4); }
 
 /* CARROSSEL POLAROID */
-.carousel { width:95%; max-width:360px; margin:auto; position:relative; overflow:hidden; border-radius:16px; box-shadow:0 0 25px rgba(255,100,150,0.35); background:#1b1b22; padding-bottom:20px; user-select:none; }
-.carousel-item { display:none; text-align:center; }
-.carousel-item.active { display:block; animation:fadeIn 1.5s ease; }
-.carousel-item img { width:100%; border-radius:16px; }
-.caption { margin-top:10px; font-size:1rem; color:#ffd4e6; padding:0 8px 10px; }
+.carousel {
+  width: 95%;
+  max-width: 360px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255,100,150,0.35);
+  background: #1b1b22;
+  padding-bottom: 20px;
+  user-select: none;
+}
+
+/* Criar a “linha” de fotos que desliza */
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease; /* DESLIZE SUAVE */
+}
+
+/* Cada item ocupa 100% da largura do carrossel */
+.carousel-item {
+  min-width: 100%;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.carousel-item img {
+  width: 100%;
+  border-radius: 16px;
+}
+
+.caption {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #ffd4e6;
+  padding: 0 8px 10px;
+  text-shadow: 0 0 8px rgba(255, 120, 150, 0.4);
+}
 
 /* BOTÕES */
 button { margin-top:20px; padding:14px 24px; background:linear-gradient(135deg,#ff2e74,#ff7ac0); color:white; border:none; border-radius:14px; font-size:1.2rem; cursor:pointer; transition:transform 0.1s, box-shadow 0.3s; box-shadow:0 0 15px rgba(255,80,140,0.4); }
@@ -56,15 +89,61 @@ button:active { transform:scale(0.94); }
 @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
 @keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.25);} 100%{transform:scale(1);} }
 
-/* X DE FECHAR A MSG SURPRESA*/
+/*BOTÃO X PRA FECHAR A MSG*/
 #closeMsg {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 2rem;
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 1.2rem;
   color: white;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 10;
+}
+#btnSurpresa {
+  position: relative; /* necessário pra o span ficar posicionado relativo ao botão */
+}
+
+/* CARROSSEL VERSÕES DO BIZO */
+#carouselBizo {
+  width: 95%;
+  max-width: 360px;
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255,100,150,0.35);
+  background: #1b1b22;
+  padding-bottom: 20px;
+  user-select: none;
+}
+
+#carouselBizo .carousel-item {
+  display: none;
+  text-align: center;
+}
+
+#carouselBizo .carousel-item.active {
+  display: block;
+  animation: fadeIn 1.5s ease;
+}
+
+#carouselBizo .carousel-item img {
+  width: 100%;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#carouselBizo .carousel-item img:hover {
+  transform: scale(1.03);
+}
+
+#carouselBizo .caption {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #ffd4e6;
+  padding: 0 8px 10px;
+  text-shadow: 0 0 8px rgba(255, 120, 150, 0.4);
 }
 
 </style>
@@ -110,17 +189,19 @@ button:active { transform:scale(0.94); }
 <section id="momentos">
   <h2>Nossos Momentos</h2>
   <div class="carousel" id="carousel">
-    <div class="carousel-item active"><img src="assets/janeiro.jpg" alt="Janeiro"><div class="caption">12/Janeiro - Casa do Rock Bar<br>Um dos primeiros shows de retorno do Rainhas de Marte, e eu sempre te acompanhando!</div></div>
-    <div class="carousel-item"><img src="assets/fevereiro.jpg" alt="Fevereiro"><div class="caption">28/Fevereiro - Madame<br>Fato curioso: Foi um dos dias que você deu PT e deu origem àquele vídeo de você morrendo no metro e dormindo sentado hahaha</div></div>
-    <div class="carousel-item"><img src="assets/março.jpg" alt="Março"><div class="caption">15/Março - Simply Red (Allianz)<br>Fizemos muitas coisas em março, mas viver esse show ao seu lado foi incrível. Muito amor e risadas.</div></div>
-    <div class="carousel-item"><img src="assets/abril.jpg" alt="Abril"><div class="caption">11/Abril - Skylab<br>Não tinha como deixar de fora né? E esse dia foi muito gostoso!</div></div>
-    <div class="carousel-item"><img src="assets/maio.jpg" alt="Maio"><div class="caption">14/Maio - System of a Down<br>Inesquecível tudo o que vivemos naquele show. Ter você ao lado deixa tudo mais especial.</div></div>
-    <div class="carousel-item"><img src="assets/junho.jpg" alt="Junho"><div class="caption">14/Junho - Alice Cooper + Madame<br>Nós aproveitamos muito esse dia, foi muito bom fazer essa loucura.</div></div>
-    <div class="carousel-item"><img src="assets/julho.jpg" alt="Julho"><div class="caption">26/Julho - Na minha casa<br>Escolhi essa porque amo nossos momentos de bobeira e caretas.</div></div>
-    <div class="carousel-item"><img src="assets/agosto.jpg" alt="Agosto"><div class="caption">09/Agosto - Na sua mãe<br>Uma das nossas várias fotos no elevador. Me lembra coisas boas.</div></div>
-    <div class="carousel-item"><img src="assets/setembro.jpg" alt="Setembro"><div class="caption">07/Setembro - The Town<br>Muito pouco felizes após o show do Iggy Pop. Que dia.</div></div>
-    <div class="carousel-item"><img src="assets/outubro.jpg" alt="Outubro"><div class="caption">31/Outubro - Após o show do Michale Graves<br>Amo essa foto. Sua cara de maníaco está A+.</div></div>
-    <div class="carousel-item"><img src="assets/novembro.jpg" alt="Novembro"><div class="caption">15/Novembro - Molchat Doma<br>Às vezes a gente vira adolescente e faz loucuras. Mas cada uma delas vale a pena só por ser contigo.</div></div>
+    <div class="carousel-track">
+      <div class="carousel-item"><img src="assets/janeiro.jpg" alt="Janeiro"><div class="caption">12/Janeiro - Casa do Rock Bar<br>Um dos primeiros shows de retorno do Rainhas de Marte, e eu sempre te acompanhando!</div></div>
+      <div class="carousel-item"><img src="assets/fevereiro.jpg" alt="Fevereiro"><div class="caption">28/Fevereiro - Madame<br>Fato curioso: Foi um dos dias que você deu PT e deu origem àquele vídeo de você morrendo no metro e dormindo sentado hahaha</div></div>
+      <div class="carousel-item"><img src="assets/março.jpg" alt="Março"><div class="caption">15/Março - Simply Red (Allianz)<br>Fizemos muitas coisas em março, mas viver esse show ao seu lado foi incrível. Muito amor e risadas.</div></div>
+      <div class="carousel-item"><img src="assets/abril.jpg" alt="Abril"><div class="caption">11/Abril - Skylab<br>Não tinha como deixar de fora né? E esse dia foi muito gostoso!</div></div>
+      <div class="carousel-item"><img src="assets/maio.jpg" alt="Maio"><div class="caption">14/Maio - System of a Down<br>Inesquecível tudo o que vivemos naquele show. Ter você ao lado deixa tudo mais especial.</div></div>
+      <div class="carousel-item"><img src="assets/junho.jpg" alt="Junho"><div class="caption">14/Junho - Alice Cooper + Madame<br>Nós aproveitamos muito esse dia, foi muito bom fazer essa loucura.</div></div>
+      <div class="carousel-item"><img src="assets/julho.jpg" alt="Julho"><div class="caption">26/Julho - Na minha casa<br>Escolhi essa porque amo nossos momentos de bobeira e caretas.</div></div>
+      <div class="carousel-item"><img src="assets/agosto.jpg" alt="Agosto"><div class="caption">09/Agosto - Na sua mãe<br>Uma das nossas várias fotos no elevador. Me lembra coisas boas.</div></div>
+      <div class="carousel-item"><img src="assets/setembro.jpg" alt="Setembro"><div class="caption">07/Setembro - The Town<br>Muito pouco felizes após o show do Iggy Pop. Que dia.</div></div>
+      <div class="carousel-item"><img src="assets/outubro.jpg" alt="Outubro"><div class="caption">31/Outubro - Após o show do Michale Graves<br>Amo essa foto. Sua cara de maníaco está A+.</div></div>
+      <div class="carousel-item"><img src="assets/novembro.jpg" alt="Novembro"><div class="caption">15/Novembro - Molchat Doma<br>Às vezes a gente vira adolescente e faz loucuras. Mas cada uma delas vale a pena só por ser contigo.</div></div>
+    </div>
   </div>
 </section>
 
@@ -148,15 +229,39 @@ button:active { transform:scale(0.94); }
 <!-- Tudo que amo em você -->
 <section id="amor">
   <h2>Versões do Bizo que eu amo <3 </h2>
-  <p>Seu sorriso.</p>
-  <p>Seu jeito bobo.</p>
-  <p>Seu abraço.</p>
+  <!-- Carrossel Versões do Bizo -->
+<div class="carousel" id="carouselBizo">
+	<div class="carousel-track">
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-amigo.jpg" alt="Bizo Amigo"><div class="caption">Bizo Amigo</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-baixista.jpg" alt="Bizo Baixista"><div class="caption">Bizo Baixista</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-cafezinho.jpg" alt="Bizo Cafezinho"><div class="caption">Bizo Cafezinho</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-carnavalesco.jpg" alt="Bizo Carnavalesco"><div class="caption">Bizo Carnavalesco</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-editor.jpg" alt="Bizo Editor"><div class="caption">Bizo Editor</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-espetinho.jpg" alt="Bizo Espetinho"><div class="caption">Bizo Espetinho</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-fã.jpg" alt="Bizo Fã"><div class="caption">Bizo Fã</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-felipe.jpg" alt="Bizo Felipe"><div class="caption">Bizo Felipe</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-feliz.jpg" alt="Bizo Feliz"><div class="caption">Bizo Feliz</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-gameplayer.jpg" alt="Bizo Gameplayer"><div class="caption">Bizo Gameplayer</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-gay.jpg" alt="Bizo Gay"><div class="caption">Bizo Gay</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-jailson.jpg" alt="Bizo Jailson"><div class="caption">Bizo Jailson</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-namorado.jpg" alt="Bizo Namorado"><div class="caption">Bizo Namorado</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-neymar.jpg" alt="Bizo Neymar"><div class="caption">Bizo Neymar</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-omelete.jpg" alt="Bizo Omelete"><div class="caption">Bizo Omelete</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-palmeirense.jpg" alt="Bizo Palmeirense"><div class="caption">Bizo Palmeirense</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-papai.jpg" alt="Bizo Papai"><div class="caption">Bizo Papai</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-pescador.jpg" alt="Bizo Pescador"><div class="caption">Bizo Pescador</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-santacruz.jpg" alt="Bizo Santa Cruz"><div class="caption">Bizo Santa Cruz</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-skylab.jpg" alt="Bizo Skylab"><div class="caption">Bizo Skylab</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-tarado.jpg" alt="Bizo Tarado"><div class="caption">Bizo Tarado</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-titio.jpg" alt="Bizo Titio"><div class="caption">Bizo Titio</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-trabalhador.jpg" alt="Bizo Trabalhador"><div class="caption">Bizo Trabalhador</div></div>
+	  <div class="carousel-item"><img src="assets/bizo-versões/bizo-corinthiano.jpg" alt="Bizo Corinthiano"><div class="caption">Bizo Corinthiano</div></div>
+</div>
 </section>
 
 <!-- Botão surpresa -->
 <section id="surpresa">
-  <button id="btnSurpresa">Clique aqui</button>
-  <span id="closeMsg">×</span>
+  <button id="btnSurpresa">Clique aqui <span id="closeMsg">×</span></button>
 </section>
 
 <!-- Mensagem surpresa -->
@@ -174,18 +279,6 @@ hero.addEventListener('click', ()=>{
   document.querySelectorAll('section').forEach(s=>s.classList.add('visible'));
 });
 
-// CARROSSEL DEVAGAR + clique para avançar
-let index=0;
-const items=document.querySelectorAll('.carousel-item');
-const carousel=document.getElementById('carousel');
-function showItem(i){
-  items.forEach(it=>it.classList.remove('active'));
-  items[i].classList.add('active');
-}
-carousel.addEventListener('click',()=>{
-  index=(index+1)%items.length;
-  showItem(index);
-});
 
 // BOTÃO SURPRESA → confete + mensagem
 const btn=document.getElementById('btnSurpresa');
@@ -270,6 +363,101 @@ close.addEventListener('click', () => {
   mensagem.style.opacity = 0;
   setTimeout(() => { mensagem.style.display = 'none'; }, 500);
 });
+
+// ====== Função genérica para carrossel com swipe ======
+function setupCarousel(carouselId, autoplayInterval = 4000) {
+  const carousel = document.getElementById(carouselId);
+  const track = carousel.querySelector('.carousel-track');
+  const items = track.querySelectorAll('.carousel-item');
+  let index = 0;
+  let startX = null;
+  let isDragging = false;
+  let offsetX = 0;
+
+  // define a largura do item
+  const itemWidth = carousel.offsetWidth;
+
+  // coloca todos os itens na horizontal
+  track.style.display = 'flex';
+  track.style.transition = 'transform 0.5s ease';
+  track.style.width = `${items.length * 100}%`;
+  items.forEach(it => it.style.width = `${100 / items.length}%`);
+
+  function showItem(i) {
+    track.style.transform = `translateX(-${i * itemWidth}px)`;
+  }
+
+  showItem(index);
+
+  // clique simples para próxima imagem
+  carousel.addEventListener('click', e => {
+    if (isDragging) return; // evita conflito com drag
+    index = (index + 1) % items.length;
+    showItem(index);
+  });
+
+  // MOUSE DRAG
+  carousel.addEventListener('mousedown', e => {
+    startX = e.clientX;
+    isDragging = true;
+    track.style.transition = 'none';
+  });
+  carousel.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    offsetX = e.clientX - startX;
+    track.style.transform = `translateX(${-index * itemWidth + offsetX}px)`;
+  });
+  carousel.addEventListener('mouseup', e => {
+    if (!isDragging) return;
+    track.style.transition = 'transform 0.5s ease';
+    if (offsetX > 50) index = (index - 1 + items.length) % items.length;
+    else if (offsetX < -50) index = (index + 1) % items.length;
+    showItem(index);
+    isDragging = false;
+    offsetX = 0;
+  });
+  carousel.addEventListener('mouseleave', e => {
+    if (isDragging) {
+      track.style.transition = 'transform 0.5s ease';
+      showItem(index);
+      isDragging = false;
+      offsetX = 0;
+    }
+  });
+
+  // TOUCH SWIPE
+  carousel.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    track.style.transition = 'none';
+  });
+  carousel.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    offsetX = e.touches[0].clientX - startX;
+    track.style.transform = `translateX(${-index * itemWidth + offsetX}px)`;
+  });
+  carousel.addEventListener('touchend', e => {
+    if (!isDragging) return;
+    track.style.transition = 'transform 0.5s ease';
+    if (offsetX > 50) index = (index - 1 + items.length) % items.length;
+    else if (offsetX < -50) index = (index + 1) % items.length;
+    showItem(index);
+    isDragging = false;
+    offsetX = 0;
+  });
+
+  // Autoplay
+  setInterval(() => {
+    if (!isDragging) {
+      index = (index + 1) % items.length;
+      showItem(index);
+    }
+  }, autoplayInterval);
+}
+
+// Inicializa os carrosséis
+setupCarousel('carousel');
+setupCarousel('carouselBizo');
 
 </script>
 
