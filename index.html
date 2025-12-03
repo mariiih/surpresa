@@ -47,7 +47,21 @@ button { margin-top:20px; padding:14px 24px; background:linear-gradient(135deg,#
 button:active { transform:scale(0.94); }
 
 /* MENSAGEM SURPRESA */
-#mensagem { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:linear-gradient(135deg,#ff2e74,#ff7ac0); color:white; padding:20px 28px; border-radius:18px; font-size:1.3rem; text-align:center; box-shadow:0 0 25px rgba(255,100,150,0.6); z-index:9999; }
+#mensagem {
+  display: none;
+  position: fixed; /* garante que fique flutuando na tela */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg,#ff2e74,#ff7ac0);
+  color: white;
+  padding: 20px 28px;
+  border-radius: 18px;
+  font-size: 1.3rem;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255,100,150,0.6);
+  z-index: 9999;
+}
 
 /* CORAÇÃO PULSANDO */
 .heart { font-size:3.4rem; animation:pulse 1.4s infinite ease-in-out; color:#ff73a5; text-shadow:0 0 15px rgba(255,100,150,0.7); }
@@ -59,7 +73,7 @@ button:active { transform:scale(0.94); }
 /* X DE FECHAR A MSG SURPRESA*/
 #closeMsg {
   position: absolute;
-  top: 10px;
+  top: 8px;
   right: 12px;
   font-size: 1.8rem;
   color: white;
@@ -330,11 +344,13 @@ window.addEventListener('scroll',()=>{
 });
 
   // Fechar a mensagem ao clicar no ×
-const close = document.querySelector('#mensagem #closeMsg');
+const close = document.getElementById('closeMsg');
 close.addEventListener('click', () => {
   mensagem.style.transition = 'opacity 0.5s';
   mensagem.style.opacity = 0;
-  setTimeout(() => { mensagem.style.display = 'none'; }, 500);
+  setTimeout(() => {
+    mensagem.style.display = 'none';
+  }, 500);
 });
 
 
