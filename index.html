@@ -58,13 +58,13 @@ button:active { transform:scale(0.94); }
 
 /* X DE FECHAR A MSG SURPRESA*/
 #closeMsg {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 2rem;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 1.8rem;
   color: white;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 10;
 }
 
 /* CARROSSEL VERSÕES DO BIZO */
@@ -224,7 +224,10 @@ button:active { transform:scale(0.94); }
 </section>
 
 <!-- Mensagem surpresa -->
-<div id="mensagem">Diga as palavras certas para retirar seu tesouro!</div>
+<div id="mensagem">
+  <span id="closeMsg">×</span>
+  Diga as palavras certas para retirar seu tesouro!
+</div>
 
 <script>
 // HERO clique → fade + música
