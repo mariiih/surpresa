@@ -69,16 +69,14 @@ button:active { transform:scale(0.94); }
 
 /* CARROSSEL VERSÕES DO BIZO */
 #carouselBizo {
-  width: 95%;
-  max-width: 360px;
+  width: 90%; /* um pouco menor pra dar espaço lateral */
+  max-width: 320px; /* menor que o do carrossel principal */
   margin: 20px auto;
-  position: relative;
-  overflow: hidden;
   border-radius: 16px;
   box-shadow: 0 0 25px rgba(255,100,150,0.35);
   background: #1b1b22;
   padding-bottom: 20px;
-  user-select: none;
+  overflow: hidden;
 }
 
 #carouselBizo .carousel-item {
@@ -93,9 +91,8 @@ button:active { transform:scale(0.94); }
 
 #carouselBizo .carousel-item img {
   width: 100%;
+  height: auto; /* mantém proporção da imagem */
   border-radius: 16px;
-  cursor: pointer;
-  transition: transform 0.2s;
 }
 
 #carouselBizo .carousel-item img:hover {
