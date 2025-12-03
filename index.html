@@ -253,17 +253,19 @@ hero.addEventListener('click', ()=>{
   music.play().catch(()=>{});
   document.querySelectorAll('section').forEach(s=>s.classList.add('visible'));
 });
+	
+// CARROSSEL NOSSOS MOMENTOS - LOOP
+let index = 0;
+const items = document.querySelectorAll('#carousel .carousel-item');
+const carousel = document.getElementById('carousel');
 
-// CARROSSEL DEVAGAR + clique para avançar
-let index=0;
-const items=document.querySelectorAll('.carousel-item');
-const carousel=document.getElementById('carousel');
 function showItem(i){
-  items.forEach(it=>it.classList.remove('active'));
+  items.forEach(it => it.classList.remove('active'));
   items[i].classList.add('active');
 }
-carousel.addEventListener('click',()=>{
-  index=(index+1)%items.length;
+
+carousel.addEventListener('click', () => {
+  index = (index + 1) % items.length; // volta pro início quando chega no fim
   showItem(index);
 });
 
